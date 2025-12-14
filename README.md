@@ -34,7 +34,7 @@ The Accept and Content-Type headers are important. The `text/event-stream` MIME 
 
 **Request**
 ```
-GET /v1/iss/events?window=60 HTTP/1.1
+GET /v1/iss/events?window=20 HTTP/1.1
 Host: 127.0.0.1 // TBD
 Accept: text/event-stream
 Cache-Control: no-cache
