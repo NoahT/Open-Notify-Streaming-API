@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="cgzB8pYO6IA1X2-PN_97" name="Page-1">
-        <mxGraphModel dx="1280" dy="321" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2625" dy="1040" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -59,7 +59,7 @@
                         <mxPoint x="1280" y="520" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="37" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Retrieve last K&lt;/span&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;&lt;span style=&quot;scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); color: rgb(63, 63, 63);&quot;&gt;time series&lt;/span&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;[range query]&lt;/div&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="23" vertex="1" connectable="0">
+                <mxCell id="37" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Retrieve last K&lt;/span&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;&lt;span style=&quot;scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); color: rgb(63, 63, 63);&quot;&gt;time series&lt;/span&gt;&lt;div style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;[range query]&lt;/div&gt;&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="23">
                     <mxGeometry x="-0.1046" y="-1" relative="1" as="geometry">
                         <mxPoint x="73" y="-1" as="offset"/>
                     </mxGeometry>
@@ -76,7 +76,7 @@
                 <mxCell id="32" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;opacity=40;strokeWidth=1;perimeterSpacing=1;shadow=0;glass=0;sketch=0;container=0;align=left;" parent="1" vertex="1">
                     <mxGeometry x="1280" y="440" width="240" height="320" as="geometry"/>
                 </mxCell>
-                <mxCell id="33" value="&lt;font style=&quot;&quot;&gt;&lt;b&gt;Google Bigtable&lt;/b&gt;&lt;br style=&quot;font-size: 12px;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;[Wide column store]&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;GCP based wide column store offering for time series data on ISS location.&lt;/span&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="33" value="&lt;font style=&quot;&quot;&gt;&lt;b&gt;Cassandra&lt;/b&gt;&lt;br style=&quot;font-size: 12px;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;[Wide column store]&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;Wide column store offering in Google Bigtable.&lt;/span&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="1320" y="480" width="160" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="34" value="Google Bigtable&lt;br&gt;&lt;font style=&quot;font-size: 8px&quot;&gt;[Wide column store]&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;glass=0;dashed=1;sketch=0;opacity=40;" parent="1" vertex="1">
@@ -91,33 +91,33 @@
                 <mxCell id="36" value="iss-network&lt;br&gt;&lt;font style=&quot;font-size: 8px&quot;&gt;[VPC network]&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;glass=0;dashed=1;sketch=0;opacity=40;" parent="1" vertex="1">
                     <mxGeometry x="40" y="1210" width="90" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="38" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;opacity=40;strokeWidth=1;perimeterSpacing=1;shadow=0;glass=0;sketch=0;container=0;align=left;" parent="1" vertex="1">
+                <mxCell id="38" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;opacity=40;strokeWidth=1;perimeterSpacing=1;shadow=0;glass=0;sketch=0;container=0;align=left;" vertex="1" parent="1">
                     <mxGeometry x="1280" y="840" width="520" height="320" as="geometry"/>
                 </mxCell>
-                <mxCell id="39" value="&lt;font style=&quot;&quot;&gt;&lt;b&gt;Zookeeper&lt;/b&gt;&lt;br style=&quot;font-size: 12px;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;[Distributed coordinator]&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;Distributed coordinator used for leader election. Uses ephemeral sequential znodes to support at most one leader for writes.&lt;/span&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="39" value="&lt;font style=&quot;&quot;&gt;&lt;b&gt;Zookeeper&lt;/b&gt;&lt;br style=&quot;font-size: 12px;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;[Distributed coordinator]&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;Distributed coordinator used for leader election. Uses ephemeral sequential znodes to support at most one leader for writes.&lt;/span&gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="1320" y="1040" width="160" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="40" value="Ingestion service&lt;br&gt;&lt;font style=&quot;font-size: 8px&quot;&gt;[Coordination service]&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;glass=0;dashed=1;sketch=0;opacity=40;" parent="1" vertex="1">
+                <mxCell id="40" value="Ingestion service&lt;br&gt;&lt;font style=&quot;font-size: 8px&quot;&gt;[Coordination service]&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;shadow=0;glass=0;dashed=1;sketch=0;opacity=40;" vertex="1" parent="1">
                     <mxGeometry x="1280" y="1120" width="100" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="41" value="" style="endArrow=classic;html=1;dashed=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="47" target="32" edge="1">
+                <mxCell id="41" value="" style="endArrow=classic;html=1;dashed=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="47" target="32">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
                         <mxPoint x="1200" y="900" as="sourcePoint"/>
                         <mxPoint x="1289" y="530" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="42" value="Add time series datapoint&lt;br&gt;[upsert query]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="41" vertex="1" connectable="0">
+                <mxCell id="42" value="Add time series datapoint&lt;br&gt;[upsert query]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="41">
                     <mxGeometry x="-0.1046" y="-1" relative="1" as="geometry">
                         <mxPoint x="-1" y="-26" as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="43" value="&lt;font style=&quot;&quot;&gt;&lt;b&gt;kazoo&lt;/b&gt;&lt;br style=&quot;font-size: 12px;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;[Python module]&lt;/span&gt;&lt;br&gt;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;Service client used to interface with other Zookeeper instances in our ensemble.&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="43" value="&lt;font style=&quot;&quot;&gt;&lt;b&gt;kazoo&lt;/b&gt;&lt;br style=&quot;font-size: 12px;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;[Python module]&lt;/span&gt;&lt;br&gt;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;&quot;&gt;&lt;span style=&quot;font-size: 8px;&quot;&gt;Service client used to interface with other Zookeeper instances in our ensemble.&amp;nbsp;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="1600" y="880" width="160" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="24" value="&lt;b&gt;Open Notify client&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 8px&quot;&gt;[REST API client]&lt;br&gt;REST API client for the Open Notify API. Short polling on a fixed interval for updates.&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="1600" y="1040" width="160" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="47" value="&lt;b style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;google-cloud-bigtable&lt;/b&gt;&lt;br style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;&lt;font style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); font-size: 8px;&quot;&gt;[Python module]&lt;br style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;Bigtable client to support update queries for ISS location data.&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                <mxCell id="47" value="&lt;b style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;google-cloud-bigtable&lt;/b&gt;&lt;br style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;&lt;font style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251); font-size: 8px;&quot;&gt;[Python module]&lt;br style=&quot;color: rgb(63, 63, 63); scrollbar-color: rgb(226, 226, 226) rgb(251, 251, 251);&quot;&gt;Bigtable client to support update queries for ISS location data.&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="1320" y="880" width="160" height="80" as="geometry"/>
                 </mxCell>
             </root>
