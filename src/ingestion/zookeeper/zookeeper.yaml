@@ -72,6 +72,9 @@ spec:
       - name: kubernetes-zookeeper
         imagePullPolicy: Always
         image: "zookeeper:latest"
+        env:
+          - name: ZOO_4LW_COMMANDS_WHITELIST
+            value: "*"
         resources:
           requests:
             memory: "1Gi"
@@ -83,33 +86,14 @@ spec:
           name: server
         - containerPort: 3888
           name: leader-election
-        command:
-        - sh
-        - -c
-        - "start-zookeeper \
-          --servers=3 \
-          --data_dir=/var/lib/zookeeper/data \
-          --data_log_dir=/var/lib/zookeeper/data/log \
-          --conf_dir=/opt/zookeeper/conf \
-          --client_port=2181 \
-          --election_port=3888 \
-          --server_port=2888 \
-          --tick_time=2000 \
-          --init_limit=10 \
-          --sync_limit=5 \
-          --heap=512M \
-          --max_client_cnxns=60 \
-          --snap_retain_count=3 \
-          --purge_interval=12 \
-          --max_session_timeout=40000 \
-          --min_session_timeout=4000 \
-          --log_level=INFO"
         readinessProbe:
           exec:
             command:
             - sh
             - -c
-            - "zookeeper-ready 2181"
+            - "echo \"ruok\" | \
+              nc localhost 2181 | \
+              grep imok"
           initialDelaySeconds: 10
           timeoutSeconds: 5
         livenessProbe:
@@ -117,7 +101,9 @@ spec:
             command:
             - sh
             - -c
-            - "zookeeper-ready 2181"
+            - "echo \"ruok\" | \
+              nc localhost 2181 | \
+              grep \"imok\""
           initialDelaySeconds: 10
           timeoutSeconds: 5
         volumeMounts:
