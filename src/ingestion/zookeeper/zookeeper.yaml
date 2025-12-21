@@ -66,9 +66,12 @@ spec:
                     - zk
               topologyKey: "kubernetes.io/hostname"
       containers:
+        # To debug the local zookeeper instance, run 
+        # kubectl exec -it zk-0 --container kubernetes-zookeeper -- sh
+        # https://kubernetes.io/docs/tasks/debug/debug-application/get-shell-running-container/#opening-a-shell-when-a-pod-has-more-than-one-container
       - name: kubernetes-zookeeper
         imagePullPolicy: Always
-        image: "registry.k8s.io/kubernetes-zookeeper:1.0-3.4.10"
+        image: "zookeeper:latest"
         resources:
           requests:
             memory: "1Gi"
