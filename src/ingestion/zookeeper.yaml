@@ -109,6 +109,13 @@ spec:
         volumeMounts:
         - name: datadir
           mountPath: /var/lib/zookeeper
+      - name: ingestion-service
+        imagePullPolicy: Always
+        image: localhost:5000/ingestion-service
+        resources:
+          requests:
+            memory: "0.3Gi"
+            cpu: "0.4"
       securityContext:
         runAsUser: 0
   volumeClaimTemplates:
