@@ -2,6 +2,7 @@ astroid==3.3.11
 dill==0.4.0
 importlib_metadata==8.7.0
 isort==6.1.0
+kazoo==2.10.0
 mccabe==0.7.0
 platformdirs==4.4.0
 pylint==3.3.9
