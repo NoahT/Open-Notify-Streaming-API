@@ -75,6 +75,28 @@ spec:
         env:
           - name: ZOO_4LW_COMMANDS_WHITELIST
             value: "*"
+          - name: ZOO_MY_ID
+            valueFrom:
+              fieldRef:
+                # We need a way to assign each Zookeeper server in the ensemble a unique ID.
+                # The easiest way is to use the ordinal index, which is available with the pod-index
+                # label in a StatefulSet.
+                # https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-index-label
+                fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+          - name: ZOO_SERVERS
+            # We need the FQDNs of each pod in our headless service, but it's not possible to get this value
+            # dynamically based on the number of replicas we are using. Based on the DNS documenation for services,
+            # FQDNs are formatted as <pod-name>.<service name>.<namespace>.svc.<cluster domain>, so they are listed
+            # exhaustively here.
+            # https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/
+            value: |
+              server.0=zk-0.zk-hs.default.svc.cluster.local:2888:3888;2181
+              server.1=zk-1.zk-hs.default.svc.cluster.local:2888:3888;2181
+              server.2=zk-2.zk-hs.default.svc.cluster.local:2888:3888;2181
+          - name: ZOO_CFG_EXTRA
+            # Based on the Zookeeper configuration documentation, the following configurations in zoo.cfg are required.
+            # https://zookeeper.apache.org/doc/r3.5.7/zookeeperAdmin.html#sc_minimumConfiguration
+            value: "clientPort=2181 dataDir=/data tickTime=2000 dataLogDir=/datalog"
         resources:
           requests:
             memory: "1Gi"
@@ -106,9 +128,6 @@ spec:
               grep \"imok\""
           initialDelaySeconds: 10
           timeoutSeconds: 5
-        volumeMounts:
-        - name: datadir
-          mountPath: /var/lib/zookeeper
       - name: ingestion-service
         imagePullPolicy: Always
         image: localhost:5000/ingestion-service
@@ -116,13 +135,15 @@ spec:
           requests:
             memory: "0.3Gi"
             cpu: "0.4"
+        env:
+          - name: POD_INDEX
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+          - name: ZOO_SERVERS
+            value: |
+              zk-0.zk-hs.default.svc.cluster.local:2181,
+              zk-1.zk-hs.default.svc.cluster.local:2181,
+              zk-2.zk-hs.default.svc.cluster.local:2181
       securityContext:
         runAsUser: 0
-  volumeClaimTemplates:
-  - metadata:
-      name: datadir
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 10Gi
