@@ -45,4 +45,9 @@ class KazooZookeeperClientTestSuite(unittest.TestCase):
     def test_should_delegate_get_to_kazoo_client(self) -> None:
         self._kazoo_zookeeper_client.get('/path')
 
-        self._kazoo_client.get.assert_called_with('/path')
+        self._kazoo_client.get.assert_called_with('/path', watch=None)
+    
+    def test_should_delegate_get_children_to_kazoo_client(self) -> None:
+        self._kazoo_zookeeper_client.get_children('/path')
+
+        self._kazoo_client.get_children.assert_called_with('/path')

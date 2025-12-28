@@ -1,6 +1,7 @@
 from kazoo.client import KazooClient
 from kazoo.protocol.states import ZnodeStat
 from abc import ABC, abstractmethod
+from types import FunctionType
 
 class Client(ABC):
     """
@@ -16,19 +17,23 @@ class Client(ABC):
         pass
 
     @abstractmethod
-    def add_listener(self, listener) -> None:
+    def add_listener(self, listener: FunctionType) -> None:
         pass
 
     @abstractmethod
-    def create(self, path, value) -> None:
+    def create(self, path: str, value: bytes, sequential: bool, ephemeral: bool) -> None:
         pass
     
     @abstractmethod
-    def set(self, path, value) -> None:
+    def set(self, path: str, value: bytes) -> None:
         pass
 
     @abstractmethod
-    def get(self, path) -> ZnodeStat:
+    def get(self, path: str, watch: FunctionType) -> ZnodeStat:
+        pass
+
+    @abstractmethod
+    def get_children(self, path: str) -> list:
         pass
 
 class KazooZookeeperClient(Client):
@@ -41,7 +46,7 @@ class KazooZookeeperClient(Client):
 
     def __init__(self, kazoo_client: KazooClient):
         super().__init__()
-        self._kazoo_client = kazoo_client
+        self._kazoo_client=kazoo_client
 
     def start(self) -> None:
         self._kazoo_client.start()
@@ -49,17 +54,21 @@ class KazooZookeeperClient(Client):
     def stop(self) -> None:
         self._kazoo_client.stop()
     
-    def add_listener(self, listener) -> None:
+    def add_listener(self, listener: FunctionType) -> None:
         self._kazoo_client.add_listener(listener)
     
-    def create(self, path, value) -> None:
+    def create(self, path: str, value: bytes=b'', sequential: bool=False, ephemeral: bool=False) -> str:
         if self._kazoo_client.exists(path):
             self._kazoo_client.logger.warning('Path already exists: ' + path)
+            return None
         else:
-            self._kazoo_client.create(path, value, makepath=True)
+            return self._kazoo_client.create(path, value, makepath=True, sequence=sequential, ephemeral=ephemeral)
     
-    def set(self, path, value) -> None:
+    def set(self, path: str, value: bytes=b'') -> None:
         self._kazoo_client.set(path, value)
     
-    def get(self, path) -> ZnodeStat:
-        return self._kazoo_client.get(path)
+    def get(self, path: str, watch: FunctionType=None) -> ZnodeStat:
+        return self._kazoo_client.get(path, watch=watch)
+    
+    def get_children(self, path: str) -> list:
+        return self._kazoo_client.get_children(path)
