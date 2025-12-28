@@ -33,7 +33,10 @@ class Client(ABC):
 
 class KazooZookeeperClient(Client):
     """
-    Kazoo client implementation for interfacing with a local Zookeeper instance.
+    Kazoo client implementation for interfacing with hosts in a Zookeeper ensemble.
+    We created this wrapper around the kazoo client itself to make testing easier,
+    in case we need to instrument interactions with Zookeeper with logging and monitoring,
+    etc.
     """
 
     def __init__(self, kazoo_client: KazooClient):
