@@ -1,9 +1,12 @@
+"""
+Open Notify client module for ISS location API.
+"""
+
 import logging
 from abc import ABC, abstractmethod
 from logging import Logger
 
 import requests
-from requests import HTTPError
 
 
 class OpenNotifyClient(ABC):
