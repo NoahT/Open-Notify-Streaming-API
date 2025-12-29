@@ -23,6 +23,7 @@ jobs:
     needs: unit_tests
     permissions:
       pull-requests: write
+      contents: read
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v4
