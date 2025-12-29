@@ -15,8 +15,8 @@ jobs:
           cache: 'pip'
           architecture: 'x64'
           token: ${{ github.token }}
-      - run: pip install -r requirements.txt
-      - run: python -m unittest discover test/
+      - run: pip install -r src/ingestion/requirements.txt
+      - run: python -m unittest discover test/ --verbose
   code_coverage:
     name: Unit test coverage
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
           cache: 'pip'
           architecture: 'x64'
           token: ${{ github.token }}
-      - run: pip install -r requirements.txt
+      - run: pip install -r src/ingestion/requirements.txt
       - run: coverage run --source=src/ -m unittest discover test/
       - run: coverage xml
       - uses: orgoro/coverage@v3
@@ -52,5 +52,5 @@ jobs:
           cache: 'pip'
           architecture: 'x64'
           token: ${{ github.token }}
-      - run: pip install -r requirements.txt
+      - run: pip install -r src/ingestion/requirements.txt
       - run: python -m pylint src/ test/ --rcfile=.pylintrc
