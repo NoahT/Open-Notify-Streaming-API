@@ -1,3 +1,7 @@
+"""
+Test suite for election facade.
+"""
+
 import unittest
 from unittest.mock import ANY, MagicMock
 
@@ -5,6 +9,7 @@ from src.ingestion.election.facade import SequentialEphemeralElectionFacade
 
 
 class SequentialEphemeralSelectionFacadeTestSuite(unittest.TestCase):
+  """Test suite for SequentialEphemeralElectionFacade."""
 
   def setUp(self):
     self._zookeeper_client = MagicMock()

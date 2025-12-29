@@ -1,3 +1,7 @@
+"""
+Test suite for Zookeeper client.
+"""
+
 import unittest
 from unittest.mock import MagicMock
 
@@ -7,6 +11,7 @@ from src.ingestion.client.zookeeper.client import KazooZookeeperClient
 
 
 class KazooZookeeperClientTestSuite(unittest.TestCase):
+  """Test suite for KazooZookeeperClient."""
 
   def setUp(self):
     self._kazoo_client = MagicMock(spec=KazooClient)
@@ -24,7 +29,10 @@ class KazooZookeeperClientTestSuite(unittest.TestCase):
     self._kazoo_client.stop.assert_called()
 
   def test_should_delegate_listener_to_kazoo_client(self) -> None:
-    listener = lambda x: None
+
+    def listener(_):
+      pass
+
     self._kazoo_zookeeper_client.add_listener(listener)
 
     self._kazoo_client.add_listener.assert_called_with(listener)
