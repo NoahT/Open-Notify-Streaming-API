@@ -1,3 +1,7 @@
+"""
+Test suite for Open Notify client.
+"""
+
 import unittest
 from unittest.mock import MagicMock, Mock
 
@@ -8,6 +12,7 @@ from src.ingestion.client.open_notify.client import OpenNotifyRequestsClient
 
 
 class OpenNotifyRequestsClientTestSuite(unittest.TestCase):
+  """Test suite for OpenNotifyRequestsClient."""
 
   def setUp(self):
     self._client = OpenNotifyRequestsClient()
