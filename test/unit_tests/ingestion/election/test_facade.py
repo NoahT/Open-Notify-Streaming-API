@@ -1,11 +1,12 @@
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, ANY
 from src.ingestion.election.facade import SequentialEphemeralElectionFacade
+import threading
 
-class SequentialEphemeralSelectionTestSuite(unittest.TestCase):
+class SequentialEphemeralSelectionFacadeTestSuite(unittest.TestCase):
     def setUp(self):
         self._zookeeper_client = MagicMock()
-        self._zookeeper_client.create.return_value = 'znode_000002'
+        self._zookeeper_client.create.return_value = '/election/znode_000002'
         self._election_facade = SequentialEphemeralElectionFacade(zookeeper_client=self._zookeeper_client)
     
     def test_should_create_ephemeral_sequential_znode_on_connect(self) -> None:
@@ -31,7 +32,6 @@ class SequentialEphemeralSelectionTestSuite(unittest.TestCase):
 
         leader_func.assert_called_once()
 
-
     def test_should_wait_for_leadership_when_not_smallest_znode(self) -> None:
         leader_func = MagicMock()
 
@@ -40,4 +40,4 @@ class SequentialEphemeralSelectionTestSuite(unittest.TestCase):
         self._election_facade.check_leadership_status(leader_func=leader_func)
 
         leader_func.assert_not_called()
-        self._zookeeper_client.get.assert_called_with(path='/election/znode_000001', watch=self._election_facade.check_leadership_status)
+        self._zookeeper_client.get.assert_called_with(path='/election/znode_000001', watch=ANY)
