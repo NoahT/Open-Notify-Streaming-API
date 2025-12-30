@@ -10,6 +10,7 @@ from types import FunctionType
 from kazoo.protocol.states import EventType, WatchedEvent
 
 from ..client.zookeeper.client import KazooZookeeperClient
+from ..util.signal_handler import SignalHandler
 
 
 class ElectionFacade(ABC):
@@ -28,20 +29,33 @@ class ElectionFacade(ABC):
         """
     pass
 
-  def check_leadership_status(self,
-                              leader_func: FunctionType) -> threading.Event:
+  def check_leadership_status(
+      self, on_leadership_acquired: FunctionType) -> threading.Event:
     """
         Abstract method used to check for leadership status for the current
         ZooKeeper server instance.
 
         :param self: Current instance of ElectionFacade.
-        :param leader_func: Function reference invoked when the current 
-        ZooKeeper server is the leader.
+        :param on_leadership_acquired: Function reference invoked when the 
+        current ZooKeeper server is the leader.
         :type leader_func: function
         :return: Event in the instance where the current instance cannot 
         obtain leadership.
         :rtype: threading.Event
         """
+    pass
+
+  @abstractmethod
+  def run_leader_election_loop(self,
+                               on_leadership_acquired: FunctionType) -> None:
+    """
+      Abstract method used for running the leadership election process.
+      
+      :param self: Current instance of ElectionFacade.
+      :param on_leadership_acquired: Callback function for when the current 
+      instance acquires leadership.
+      :type on_leadership_acquired: FunctionType
+      """
     pass
 
 
@@ -53,12 +67,14 @@ class SequentialEphemeralElectionFacade(ElectionFacade):
   def __init__(
       self,
       zookeeper_client: KazooZookeeperClient,
+      signal_handler: SignalHandler,
       znode_root_path: str = "/election",
       logger: Logger = Logger(__name__),
   ):
     self._logger = logger
     self._znode_root_path = znode_root_path
     self._zookeeper_client = zookeeper_client
+    self._signal_handler = signal_handler
 
     self._logger.warning("Initialized election facade [znode_root_path=%s]",
                          znode_root_path)
@@ -73,8 +89,21 @@ class SequentialEphemeralElectionFacade(ElectionFacade):
     self._logger.warning(
         "Connected znode for zookeeper instance [znode_path=%s]", znode)
 
-  def check_leadership_status(self,
-                              leader_func: FunctionType) -> threading.Event:
+  def run_leader_election_loop(self,
+                               on_leadership_acquired: FunctionType) -> None:
+    while not self._signal_handler.shutdown_event.is_set():
+      self._logger.warning("Running election loop.")
+      leadership_event = self.check_leadership_status(
+          on_leadership_acquired=on_leadership_acquired)
+
+      if leadership_event is None:
+        self._logger.warning("Leadership acquired! Ending election loop.")
+        return
+
+      leadership_event.wait()
+
+  def check_leadership_status(
+      self, on_leadership_acquired: FunctionType) -> threading.Event:
     # Using child znode names and non-prefixed znode name, we can determine
     # if there is a node that precedes the current.
     sorted_children = self._get_sorted_children()
@@ -92,7 +121,7 @@ class SequentialEphemeralElectionFacade(ElectionFacade):
       self._logger.warning("Electing znode as leader [znode=%s]", self._znode)
       # If the index is 0, the newly created znode has the lowest id and is
       # leader by default
-      leader_func()
+      on_leadership_acquired(self._signal_handler.shutdown_event)
       return None
     else:
       # If the index is not 0, we need to watch the preceding znode to re-check
@@ -111,10 +140,14 @@ class SequentialEphemeralElectionFacade(ElectionFacade):
         if event.type == EventType.DELETED:
           watch_event.set()
 
+      # There may be an edge case where watches are placed on multiple znodes.
+      # Beyond potential herding, that should be okay as long as we are only
+      # able to acquire leadership when there are no preceding znodes.
       self._zookeeper_client.get(path=znode_watch_path, watch=watch_callback)
       self._logger.warning(
           "Added watch to next lowest znode [znode_watch_path=%s]",
           znode_watch_path)
+
       return watch_event
 
   def _get_watch_event(self) -> threading.Event:
