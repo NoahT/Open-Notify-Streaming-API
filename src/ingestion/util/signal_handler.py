@@ -1,3 +1,5 @@
+"""Module for handling signals in the ingestion service."""
+
 import logging
 import signal
 import threading

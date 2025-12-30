@@ -1,3 +1,5 @@
+"""Unit tests for signal handler."""
+
 import signal
 import unittest
 from unittest.mock import MagicMock
@@ -7,6 +9,7 @@ from src.ingestion.util.signal_handler import ZooKeeperSignalHandler
 
 
 class ZooKeeperSignalHandlerTestSuite(unittest.TestCase):
+  """Test suite for ZooKeeperSignalHandler."""
 
   def setUp(self):
     self._zookeeper_client = MagicMock(spec=Client)
