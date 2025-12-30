@@ -24,6 +24,18 @@ class SignalHandler(ABC):
     """
     pass
 
+  @property
+  @abstractmethod
+  def shutdown_event(self) -> threading.Event:
+    """
+    Abstract method for shutdown event.
+    
+    :param self: Current SignalHandler instance.
+    :return: The Event instance signalling shutdown.
+    :rtype: Event
+    """
+    pass
+
 
 class ZooKeeperSignalHandler(SignalHandler):
   """
