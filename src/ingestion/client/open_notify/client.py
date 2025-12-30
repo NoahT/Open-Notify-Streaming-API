@@ -26,8 +26,8 @@ class OpenNotifyRequestsClient(OpenNotifyClient):
   """
 
   def __init__(self,
-               hostname: str = 'https://api.open-notify.org',
-               timeout: float = 2,
+               hostname: str = 'http://api.open-notify.org',
+               timeout: float = 5,
                logger: Logger = logging.getLogger(__name__)):
     self._hostname = hostname
     self._iss_path = '/iss-now.json'

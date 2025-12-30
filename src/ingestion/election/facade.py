@@ -121,7 +121,7 @@ class SequentialEphemeralElectionFacade(ElectionFacade):
       self._logger.warning("Electing znode as leader [znode=%s]", self._znode)
       # If the index is 0, the newly created znode has the lowest id and is
       # leader by default
-      on_leadership_acquired()
+      on_leadership_acquired(self._signal_handler.shutdown_event)
       return None
     else:
       # If the index is not 0, we need to watch the preceding znode to re-check
