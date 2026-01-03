@@ -4,11 +4,6 @@ import unittest
 from src.ingestion.config.config_facade import ConfigFacade
 
 
-# pylint: disable=unused-argument
-def env_util_side_effect(*args, **kwargs):
-  return 'development'
-
-
 class ConfigFacadeTestSuite(unittest.TestCase):
   """ Unit test suite for ConfigFacade. """
 
