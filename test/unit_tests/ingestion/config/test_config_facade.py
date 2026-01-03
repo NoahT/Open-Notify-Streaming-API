@@ -30,7 +30,7 @@ class ConfigFacadeTestSuite(unittest.TestCase):
 
   def test_should_return_dict_in_config(self) -> None:
     value = self._config_facade.read_dict('SOME_KEY_FOR_DICT')
-    self.assertEqual({"SOME_KEY_FOR_STR": "some value"}, value)
+    self.assertEqual({'SOME_KEY_FOR_STR': 'some value'}, value)
 
   def test_should_return_int_in_config(self) -> None:
     value = self._config_facade.read_int('SOME_KEY_FOR_INT')
