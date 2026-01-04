@@ -1,0 +1,12 @@
+{
+    "ENVIRONMENT": "development",
+    "FIRESTORE_CLIENT_CONFIG": {
+        "DATABASE_ID": "open-notify-development",
+        "CREATE": {
+            "TIMEOUT": 1.000
+        },
+        "READ": {
+            "TIMEOUT": 1.000
+        }
+    }
+}
