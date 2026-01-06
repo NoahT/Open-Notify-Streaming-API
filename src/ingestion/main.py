@@ -5,7 +5,6 @@ Main module for the ingestion service using ZooKeeper for leader election.
 import logging
 import os
 import threading
-import time
 
 from kazoo.client import KazooClient
 

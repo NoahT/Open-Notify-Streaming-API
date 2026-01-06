@@ -1,3 +1,5 @@
+"""Client for interacting with ISS location data storage."""
+
 import logging
 from abc import ABC, abstractmethod
 
@@ -59,19 +61,19 @@ class ISSLocationFirestoreClient(ISSLocationClient):
   def add_iss_location(self, iss_location: ISSLocation) -> None:
     timeout = self.firestore_config['CREATE']['TIMEOUT'] * 1000
 
-    self._logger.warning(
-        f'Adding iss_location [iss_location={iss_location}, timeout={timeout}]')
+    self._logger.warning('Adding iss_location [iss_location=%s, timeout=%s]',
+                         iss_location, timeout)
 
     document_tuple = self.firestore_client.collection(
         self.ISS_COLLECTION_NAME).add(iss_location.iss_dict, timeout=timeout)
 
-    self._logger.info(f'Added iss_location [document={document_tuple[1]}]')
+    self._logger.info('Added iss_location [document=%s]', document_tuple[1])
 
   def get_iss_locations(self, ts_from: int, ts_to: int) -> list:
     timeout = self.firestore_config['READ']['TIMEOUT'] * 1000
     self._logger.info(
-        f'Retrieving ISS location data [ts_from={ts_from}, ts_to={ts_to}, timeout={timeout}]'
-    )
+        'Retrieving ISS location data [ts_from=%s, ts_to=%s, timeout=%s]',
+        ts_from, ts_to, timeout)
 
     documents = self.firestore_client.collection(
         self.ISS_COLLECTION_NAME).where('ts', '>=', ts_from).where(
@@ -81,8 +83,8 @@ class ISSLocationFirestoreClient(ISSLocationClient):
         ISSLocation.from_dict(document.to_dict()) for document in documents
     ]
 
-    self._logger.info(
-        f'Retrieved ISS location data [iss_locations={iss_locations}]')
+    self._logger.info('Retrieved ISS location data [iss_locations=%s]',
+                      iss_locations)
 
     return iss_locations
 
@@ -100,8 +102,8 @@ class ISSLocationFirestoreClient(ISSLocationClient):
 
       database_id = self.firestore_config['DATABASE_ID']
 
-      self._logger.info(('Initializing Firestore client ',
-                         f'[configuration={self.firestore_config}]'))
+      self._logger.info('Initializing Firestore client [configuration=%s]',
+                        self.firestore_config)
 
       self._firestore_client = firestore.client(database_id=database_id)
 
