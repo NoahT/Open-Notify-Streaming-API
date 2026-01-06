@@ -57,22 +57,23 @@ class ISSLocationFirestoreClient(ISSLocationClient):
     self._firestore_client = None
 
   def add_iss_location(self, iss_location: ISSLocation) -> None:
-    self._logger.info(f'Adding iss_location [iss_location={iss_location}]')
+    timeout = self.firestore_config['CREATE']['TIMEOUT'] * 1000
 
-    timeout = self.firestore_config['CREATE']['TIMEOUT']
+    self._logger.warning(
+        f'Adding iss_location [iss_location={iss_location}, timeout={timeout}]')
 
-    document_tuple = self._firestore_client.collection(
-        self.ISS_COLLECTION_NAME).add(iss_location, timeout=timeout)
+    document_tuple = self.firestore_client.collection(
+        self.ISS_COLLECTION_NAME).add(iss_location.iss_dict, timeout=timeout)
 
     self._logger.info(f'Added iss_location [document={document_tuple[1]}]')
 
   def get_iss_locations(self, ts_from: int, ts_to: int) -> list:
+    timeout = self.firestore_config['READ']['TIMEOUT'] * 1000
     self._logger.info(
-        f'Retrieving ISS location data [ts_from={ts_from}, ts_to={ts_to}]')
+        f'Retrieving ISS location data [ts_from={ts_from}, ts_to={ts_to}, timeout={timeout}]'
+    )
 
-    timeout = self.firestore_config['READ']['TIMEOUT']
-
-    documents = self._firestore_client.collection(
+    documents = self.firestore_client.collection(
         self.ISS_COLLECTION_NAME).where('ts', '>=', ts_from).where(
             'ts', '<=', ts_to).order_by('ts').get(timeout=timeout)
 

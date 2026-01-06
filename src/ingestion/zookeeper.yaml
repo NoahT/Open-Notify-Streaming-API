@@ -145,5 +145,7 @@ spec:
               zk-0.zk-hs.default.svc.cluster.local:2181,
               zk-1.zk-hs.default.svc.cluster.local:2181,
               zk-2.zk-hs.default.svc.cluster.local:2181
+          - name: ENVIRONMENT
+            value: "development"
       securityContext:
         runAsUser: 0
