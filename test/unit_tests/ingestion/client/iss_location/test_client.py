@@ -53,7 +53,14 @@ class ISSLocationFirestoreClientTestSuite(unittest.TestCase):
       self._client.add_iss_location(iss_location)
 
       mock_firestore_client.collection.assert_called_once_with('iss_locations')
-      collection_mock.add.assert_called_once_with(iss_location, timeout=1.0)
+      collection_mock.add.assert_called_once_with(
+          {
+              'id': None,
+              'ts': 1234567890,
+              'pos_la': 12.3,
+              'pos_lo': -45.6
+          },
+          timeout=1000)
 
   def test_should_get_iss_location_data(self) -> None:
     iss_location_obj_1 = ISSLocation(ts=1234567890,
