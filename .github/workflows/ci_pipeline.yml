@@ -16,7 +16,20 @@ jobs:
           architecture: 'x64'
           token: ${{ github.token }}
       - run: pip install -r src/ingestion/requirements.txt
-      - run: python -m unittest discover test/ --verbose
+      - run: python -m unittest discover test/unit_tests --verbose
+  integration-tests:
+    name: Integration test regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+          architecture: 'x64'
+          token: ${{ github.token }}
+      - run: pip install -r src/ingestion/requirements.txt
+      - run: python -m unittest discover test/integration_tests/ --verbose
   code_coverage:
     name: Unit test coverage
     runs-on: ubuntu-latest
