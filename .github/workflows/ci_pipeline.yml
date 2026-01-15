@@ -52,7 +52,7 @@ jobs:
           architecture: 'x64'
           token: ${{ github.token }}
       - run: pip install -r src/ingestion/requirements.txt
-      - run: coverage run --source=src/ -m unittest discover test/
+      - run: coverage run --source=src/ -m unittest discover test/unit_tests
       - run: coverage xml
       - uses: orgoro/coverage@v3
         with:
