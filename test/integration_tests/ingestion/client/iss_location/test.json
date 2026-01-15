@@ -1,7 +1,7 @@
 {
     "ENVIRONMENT": "test",
     "FIRESTORE_CLIENT_CONFIG": {
-        "DATABASE_ID": "open-notify-development",
+        "DATABASE_ID": "open-notify-it",
         "CREATE": {
             "TIMEOUT": 5.000
         },

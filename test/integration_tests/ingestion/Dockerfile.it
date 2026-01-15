@@ -1,0 +1,11 @@
+FROM python:3.9.12-slim-buster
+ENV PYTHONUNBUFFERED=1
+
+RUN mkdir -p src/ingestion
+RUN mkdir -p test/integration_tests/ingestion
+COPY src/ingestion src/ingestion
+COPY test/integration_tests/ingestion test/integration_tests/ingestion
+
+RUN pip3 install -r src/ingestion/requirements.txt
+
+CMD [ "python3", "-m", "unittest", "discover", "test/integration_tests" ]
