@@ -35,7 +35,7 @@ jobs:
           compose-file: "./test/integration_tests/ingestion/docker-compose.yml"
       - name: Execute integration tests
         run: |
-          docker compose exec python3 -m unittest discover test/integration_tests/
+          docker compose --file test/integration_tests/ingestion/docker-compose.yml exec python3 -m unittest discover test/integration_tests/
   code_coverage:
     name: Unit test coverage
     runs-on: ubuntu-latest
