@@ -12,16 +12,16 @@ class ISSLocationFirestoreClientTestSuite(unittest.TestCase):
   '''
 
   @classmethod
-  def setUpClass(self) -> None:
+  def setUpClass(cls) -> None:
     # Same database; I really just didn't want to move out of free tier.
     # In the future wemight consider installing the Firestore emulator and
     # ITs with Docker compose so we can run the integration tests in a more
     # isolated manner.
-    self._config = ConfigFacade(
+    cls._config = ConfigFacade(
         'test/integration_tests/ingestion/client/iss_location', 'test',
         'default')
-    self._client = ISSLocationFirestoreClient(
-        config=self._config, collection_name='iss_locations_it')
+    cls._client = ISSLocationFirestoreClient(config=cls._config,
+                                             collection_name='iss_locations_it')
 
   @classmethod
   def tearDownClass(cls):
