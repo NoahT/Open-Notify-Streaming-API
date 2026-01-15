@@ -1,4 +1,7 @@
 name: ci_pipeline
+permissions:
+  id-token: write
+  contents: read
 on:
   pull_request:
     branches:
