@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  firestore_emulator:
+    build:
+      context: .
+      dockerfile: Dockerfile.firestore
+    environment:
+      - FIRESTORE_PROJECT_ID=open-notify
+      - GOOGLE_CLOUD_PROJECT=open-notify
+      - GCLOUD_PROJECT=open-notify
+    ports:
+      - "8080:8080"
+  integration_tests:
+    build:
+      context: ../../../
+      dockerfile: test/integration_tests/ingestion/Dockerfile.it
+    environment:
+      - FIRESTORE_EMULATOR_HOST=firestore_emulator:8080
+      - FIRESTORE_PROJECT_ID=open-notify
+      # For whatever reason, we still need to mount application default credentials
+      # even though we are using an emulator. The volume on the container binds
+      # GOOGLE_APPLICATION_CREDENTIALS from the container host so that the Firestore 
+      # client can initialize correctly.
+      - GOOGLE_APPLICATION_CREDENTIALS
+      - GOOGLE_CLOUD_PROJECT=open-notify
+    volumes:
+      - type: bind
+        source: ${GOOGLE_APPLICATION_CREDENTIALS}
+        target: ${GOOGLE_APPLICATION_CREDENTIALS}
+    depends_on:
+      - firestore_emulator

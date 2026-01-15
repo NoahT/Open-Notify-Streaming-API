@@ -1,4 +1,4 @@
-''' Unit test module for Open Notify client. '''
+''' Integration test module for Open Notify client. '''
 import unittest
 
 from src.ingestion.client.open_notify.client import OpenNotifyRequestsClient
