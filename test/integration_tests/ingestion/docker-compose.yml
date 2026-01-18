@@ -11,6 +11,10 @@ services:
       - GCLOUD_PROJECT=open-notify
     ports:
       - "8080:8080"
+  redis:
+    image: redis:alpine3.22
+    ports:
+      - "6379:6379"
   integration_tests:
     build:
       context: ../../../
@@ -30,3 +34,4 @@ services:
         target: ${GOOGLE_APPLICATION_CREDENTIALS}
     depends_on:
       - firestore_emulator
+      - redis
