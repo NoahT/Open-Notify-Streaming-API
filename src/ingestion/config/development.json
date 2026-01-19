@@ -8,5 +8,17 @@
         "READ": {
             "TIMEOUT": 5.000
         }
+    },
+    "REDIS_CLIENT": {
+        "HOST": "localhost",
+        "PORT": 6379,
+        "CONNECT": {
+            "TIMEOUT": 5.000
+        },
+        "PUBLISH": {
+            "TIMEOUT": 5.000
+        },
+        "CHANNEL": "iss_location",
+        "DECODE_RESPONSES": true
     }
 }
