@@ -9,7 +9,7 @@ services:
       - "8000:8000"
   redis:
     image: redis:latest
-  integration_tests:
+  integration_tests_streaming:
     build:
       context: ../../../
       dockerfile: test/integration_tests/streaming/Dockerfile.it
