@@ -1,3 +1,4 @@
+''' Boilerplate test module. '''
 from unittest import TestCase
 
 
