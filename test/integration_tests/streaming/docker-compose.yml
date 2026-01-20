@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  streaming:
+    build:
+      context: ../../../src/streaming/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+  redis:
+    image: redis:latest
+  integration_tests:
+    build:
+      context: ../../../
+      dockerfile: test/integration_tests/streaming/Dockerfile.it
+    depends_on:
+      - redis
+
