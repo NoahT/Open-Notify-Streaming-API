@@ -15,7 +15,7 @@ services:
     image: redis:alpine3.22
     ports:
       - "6379:6379"
-  integration_tests:
+  integration_tests_ingestion:
     build:
       context: ../../../
       dockerfile: test/integration_tests/ingestion/Dockerfile.it
