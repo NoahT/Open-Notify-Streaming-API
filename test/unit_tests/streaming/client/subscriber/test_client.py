@@ -1,3 +1,4 @@
+''' Unit test module for SubscriberClient implementations. '''
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
@@ -7,6 +8,7 @@ from src.streaming.client.subscriber.client import RedisSubscriberClient
 
 
 class RedisSubscriberClientTestSuite(TestCase):
+  ''' Unit test suite for RedisSubscriberClient. '''
 
   def setUp(self):
     self._config = MagicMock()
@@ -34,7 +36,7 @@ class RedisSubscriberClientTestSuite(TestCase):
 
     redis_patch.return_value = redis_mock
 
-    def handler(message):
+    def handler():
       print('Placeholder handler')
 
     self._client.subscribe_iss_location(handler=handler)

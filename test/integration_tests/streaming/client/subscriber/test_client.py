@@ -25,7 +25,7 @@ class RedisSubscriberClientTestSuite(TestCase):
   def test_should_correctly_consume_messages_from_iss_channel(self) -> None:
     self._is_consumed = False
 
-    def handler(message):
+    def handler():
       self._is_consumed = True
 
     self._client_subscriber.subscribe_iss_location(handler=handler)
