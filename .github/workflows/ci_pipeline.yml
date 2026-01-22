@@ -50,6 +50,7 @@ jobs:
           compose-file: "./test/integration_tests/streaming/docker-compose.yml"
           services: |
             streaming
+            redis
       - name: Execute integration tests
         run: |
           docker compose --file test/integration_tests/streaming/docker-compose.yml run integration_tests_streaming
