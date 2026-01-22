@@ -32,16 +32,17 @@ class RedisSubscriberClientTestSuite(TestCase):
 
     self._client_subscriber.subscribe_iss_location(handler=handler)
 
-    def publish():
-      iss_location = ISSLocation.from_dict({
-          'ts': int(time.time()),
-          'pos_la': 1.2345,
-          'pos_lo': 6.7890
-      })
-      self._client_publisher.publish_iss_location(iss_location=iss_location)
-      time.sleep(3)
+    def publish(n):
+      for i in range(n):
+        iss_location = ISSLocation.from_dict({
+            'ts': int(time.time()),
+            'pos_la': 1.2345,
+            'pos_lo': 6.7890
+        })
+        self._client_publisher.publish_iss_location(iss_location=iss_location)
+        time.sleep(3)
 
-    publisher_thread = threading.Thread(target=publish)
+    publisher_thread = threading.Thread(target=publish, kwargs={'n': 3})
     publisher_thread.start()
 
     time.sleep(15)
