@@ -2,7 +2,9 @@ FROM python:3.10.12-alpine
 ENV PYTHONUNBUFFERED=1
 
 COPY src/streaming src/streaming
+COPY src/ingestion src/ingestion
 COPY test/integration_tests/streaming test/integration_tests/streaming
+RUN pip3 install -r src/ingestion/requirements.txt
 RUN pip3 install -r src/streaming/requirements.txt
 
 CMD [ "python3", "-m", "unittest", "discover", "test/integration_tests/streaming" ]
