@@ -1,4 +1,5 @@
 ''' Module for integration testing SubscriberClient implementations. '''
+import logging
 import threading
 import time
 from unittest import TestCase
@@ -25,7 +26,8 @@ class RedisSubscriberClientTestSuite(TestCase):
   def test_should_correctly_consume_messages_from_iss_channel(self) -> None:
     self._is_consumed = False
 
-    def handler():
+    def handler(message):
+      logging.warning('Message consumed: %s', message['data'])
       self._is_consumed = True
 
     self._client_subscriber.subscribe_iss_location(handler=handler)
