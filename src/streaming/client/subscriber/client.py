@@ -50,6 +50,9 @@ class RedisSubscriberClient(SubscriberClient):
     self._logger.info(
         f'Subscribed to channel [channel={channel}, sleep_time={sleep_time}]')
 
+  def close_channel(self) -> None:
+    self._subscriber_thread.stop()
+
   @property
   def client(self) -> redis.Redis:
     if not self._client:

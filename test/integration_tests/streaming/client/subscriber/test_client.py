@@ -41,3 +41,6 @@ class RedisSubscriberClientTestSuite(TestCase):
     time.sleep(5)
 
     self.assertTrue(self._is_consumed)
+
+  def tearDown(self):
+    self._client_subscriber.close_channel()
