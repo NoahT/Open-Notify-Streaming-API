@@ -3,8 +3,7 @@ import logging
 from abc import ABC, abstractmethod
 
 import redis
-
-from ...config.config_facade import Config
+from cfg_environ.config import Config
 
 
 class SubscriberClient(ABC):
