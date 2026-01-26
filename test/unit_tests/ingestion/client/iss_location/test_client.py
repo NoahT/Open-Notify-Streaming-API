@@ -3,9 +3,10 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
+from cfg_environ.config import Config
+
 from src.ingestion.client.iss_location.client import ISSLocationFirestoreClient
 from src.ingestion.client.iss_location.iss_location import ISSLocation
-from src.ingestion.config.config_facade import Config
 
 
 class ISSLocationFirestoreClientTestSuite(unittest.TestCase):

@@ -4,8 +4,8 @@ import logging
 from abc import ABC, abstractmethod
 
 import redis
+from cfg_environ.config import Config
 
-from ...config.config_facade import Config
 from ..iss_location.iss_location import ISSLocation
 
 

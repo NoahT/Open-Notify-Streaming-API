@@ -3,10 +3,10 @@ from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 import redis
+from cfg_environ.config import Config
 
 from src.ingestion.client.iss_location.iss_location import ISSLocation
 from src.ingestion.client.publisher.client import RedisPublisherClient
-from src.ingestion.config.config_facade import Config
 
 
 class RedisPublisherClientTestSuite(TestCase):

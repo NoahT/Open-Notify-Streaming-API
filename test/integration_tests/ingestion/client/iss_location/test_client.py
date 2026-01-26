@@ -2,9 +2,10 @@
 import time
 import unittest
 
+from cfg_environ.config import ConfigFacade
+
 from src.ingestion.client.iss_location.client import ISSLocationFirestoreClient
 from src.ingestion.client.iss_location.iss_location import ISSLocation
-from src.ingestion.config.config_facade import ConfigFacade
 
 
 class ISSLocationFirestoreClientTestSuite(unittest.TestCase):

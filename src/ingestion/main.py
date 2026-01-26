@@ -6,13 +6,13 @@ import logging
 import os
 import threading
 
+from cfg_environ.config import Config, ConfigFacade
 from kazoo.client import KazooClient
 
 from .client.iss_location.client import ISSLocationFirestoreClient
 from .client.iss_location.iss_location import ISSLocation
 from .client.open_notify.client import OpenNotifyRequestsClient
 from .client.zookeeper.client import Client, KazooZookeeperClient
-from .config.config_facade import Config, ConfigFacade
 from .election.facade import ElectionFacade, SequentialEphemeralElectionFacade
 from .util.signal_handler import SignalHandler, ZooKeeperSignalHandler
 
