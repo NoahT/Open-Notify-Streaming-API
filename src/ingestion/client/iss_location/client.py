@@ -4,9 +4,9 @@ import logging
 from abc import ABC, abstractmethod
 
 import firebase_admin
+from cfg_environ.config import Config
 from firebase_admin import credentials, firestore
 
-from ...config.config_facade import Config
 from .iss_location import ISSLocation
 
 

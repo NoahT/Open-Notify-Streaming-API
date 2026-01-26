@@ -1,5 +1,6 @@
 async-timeout==5.0.1
 blinker==1.9.0
+cfg-environ==1.0.0
 click==8.1.8
 Flask==3.1.2
 Flask-SSE==1.0.0

@@ -2,9 +2,10 @@
 import time
 from unittest import TestCase
 
+from cfg_environ.config import ConfigFacade
+
 from src.ingestion.client.iss_location.iss_location import ISSLocation
 from src.ingestion.client.publisher.client import RedisPublisherClient
-from src.ingestion.config.config_facade import ConfigFacade
 
 
 class RedisPublisherClientTestsuite(TestCase):
