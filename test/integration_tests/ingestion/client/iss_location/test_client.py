@@ -3,9 +3,8 @@ import time
 import unittest
 
 from cfg_environ.config import ConfigFacade
-
-from src.ingestion.client.iss_location.client import ISSLocationFirestoreClient
-from src.ingestion.client.iss_location.iss_location import ISSLocation
+from iss_location_client.client import ISSLocationFirestoreClient
+from iss_location_client.iss_location import ISSLocation
 
 
 class ISSLocationFirestoreClientTestSuite(unittest.TestCase):
@@ -15,10 +14,6 @@ class ISSLocationFirestoreClientTestSuite(unittest.TestCase):
 
   @classmethod
   def setUpClass(cls) -> None:
-    # Same database; I really just didn't want to move out of free tier.
-    # In the future wemight consider installing the Firestore emulator and
-    # ITs with Docker compose so we can run the integration tests in a more
-    # isolated manner.
     cls._config = ConfigFacade(
         'test/integration_tests/ingestion/client/iss_location', 'test',
         'default')
@@ -50,8 +45,6 @@ class ISSLocationFirestoreClientTestSuite(unittest.TestCase):
 
     ts_to = int(time.time())
     ts_from = ts_to - 10
-    # Rough window. Could fail due to concurrent runs. Again, can be fixed
-    # in future if emulator inside container is used for integration tests.
     iss_location_documents = self._client.get_iss_locations(ts_from=ts_from,
                                                             ts_to=ts_to)
 

@@ -7,10 +7,10 @@ import os
 import threading
 
 from cfg_environ.config import Config, ConfigFacade
+from iss_location_client.client import ISSLocationFirestoreClient
+from iss_location_client.iss_location import ISSLocation
 from kazoo.client import KazooClient
 
-from .client.iss_location.client import ISSLocationFirestoreClient
-from .client.iss_location.iss_location import ISSLocation
 from .client.open_notify.client import OpenNotifyRequestsClient
 from .client.zookeeper.client import Client, KazooZookeeperClient
 from .election.facade import ElectionFacade, SequentialEphemeralElectionFacade
