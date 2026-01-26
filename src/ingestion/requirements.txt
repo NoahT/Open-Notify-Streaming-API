@@ -31,6 +31,7 @@ hyperframe==6.1.0
 idna==3.11
 importlib_metadata==8.7.0
 isort==6.1.0
+iss-location-client==1.0.0
 kazoo==2.10.0
 mccabe==0.7.0
 msgpack==1.1.2

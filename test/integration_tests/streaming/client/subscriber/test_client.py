@@ -4,10 +4,10 @@ import time
 from unittest import TestCase
 
 from cfg_environ.config import ConfigFacade
+from iss_location_client.iss_location import ISSLocation
 
 from src.ingestion.client.publisher.client import RedisPublisherClient
 from src.streaming.client.subscriber.client import RedisSubscriberClient
-from src.streaming.client.subscriber.iss_location import ISSLocation
 
 
 class RedisSubscriberClientTestSuite(TestCase):

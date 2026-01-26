@@ -4,8 +4,8 @@ from unittest.mock import MagicMock, patch
 
 import redis
 from cfg_environ.config import Config
+from iss_location_client.iss_location import ISSLocation
 
-from src.ingestion.client.iss_location.iss_location import ISSLocation
 from src.ingestion.client.publisher.client import RedisPublisherClient
 
 
