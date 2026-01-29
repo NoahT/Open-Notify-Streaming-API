@@ -11,5 +11,15 @@
         },
         "CHANNEL": "iss_location",
         "DECODE_RESPONSES": true
+    },
+    "ROUTES": {
+        "V1_ISS_EVENTS": {
+            "PARAMS": {
+                "WINDOW": {
+                    "MINIMUM_VALUE": 10,
+                    "MAXIMUM_VALUE": 600
+                }
+            }
+        }
     }
 }
