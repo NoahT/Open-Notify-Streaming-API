@@ -1,7 +1,6 @@
 ''' Controller module for ISS resources. '''
 
 import logging
-from abc import ABC, abstractmethod
 
 from cfg_environ.config import Config
 from werkzeug.exceptions import HTTPException
@@ -10,24 +9,7 @@ from werkzeug.http import HTTP_STATUS_CODES
 from .iss_repository import ISSRepository
 
 
-class ISSController(ABC):
-  '''
-  Abstract base class for routing ISS resources.
-  '''
-
-  @abstractmethod
-  def v1_iss_events(self) -> list:
-    '''
-    Controller routing for GET::/v1/iss/events
-    
-    :param self: Current ISSController instance.
-    :return: List of serialized ISSPosition instances.
-    :rtype: list
-    '''
-    pass
-
-
-class V1ISSController(ISSController):
+class V1ISSController:
   '''
   ISSController implementation for v1 based routing logic.
   '''

@@ -12,6 +12,9 @@
         "CHANNEL": "iss_location",
         "DECODE_RESPONSES": true
     },
+    "FLASK_SSE": {
+        "REDIS_URL": "redis://redis:6379"
+    },
     "ROUTES": {
         "V1_ISS_EVENTS": {
             "PARAMS": {
