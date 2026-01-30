@@ -6,18 +6,22 @@ import logging
 
 from cfg_environ.config import Config, ConfigFacade
 from flask import Flask
+from flask_sse import sse
 from iss_location_client.client import (ISSLocationClient,
                                         ISSLocationFirestoreClient)
 
 from .client.subscriber.client import RedisSubscriberClient, SubscriberClient
 from .middleware.iss_controller import V1ISSController
 from .middleware.iss_repository import ISSPassThroughRepository, ISSRepository
-from .util.event_handling import on_iss_location_update
 
 
 def configure_logging() -> None:
   logging.basicConfig(level=logging.INFO,
                       format='%(asctime)s %(levelname)s %(name)s: %(message)s')
+
+
+configure_logging()
+LOGGER = logging.getLogger(__name__)
 
 
 def get_config() -> Config:
@@ -54,24 +58,32 @@ def get_subscriber(handler, config: Config) -> SubscriberClient:
   return redis_subscriber
 
 
+def on_iss_location_update(message: dict) -> None:
+  with app.app_context():
+    channel = message['channel']
+    data = message['data']
+    sse.publish(data, type='iss_location')
+    LOGGER.info('Published ISS location update [channel=%s, data=%s]', channel,
+                data)
+
+
 def get_flask_app(config: Config) -> Flask:
   app = Flask(__name__)
   # We are not running this application on the bridge network.
   # A user-managed Docker network was created to make testing locally with
   # a redis instance easier.
-  redis_url = config.read_dict('FLASK_SSE')
+  redis_url = config.read_dict('FLASK_SSE')['REDIS_URL']
   app.config[FLASK_SSE_REDIS_URL_KEY] = redis_url
 
   return app
 
 
-CONFIG_PATH = 'src/streaming/config'
+CONFIG_PATH = 'streaming/config'
 CONFIG_ENV = 'development'
 CONFIG_ENV_DEFAULT = 'default'
 
 FLASK_SSE_REDIS_URL_KEY = 'REDIS_URL'
 
-configure_logging()
 config = get_config()
 client = get_iss_client(config=config)
 iss_repository = get_iss_repository(client=client)
