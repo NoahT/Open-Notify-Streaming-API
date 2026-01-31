@@ -40,6 +40,8 @@ class ISSPassThroughRepository(ISSRepository):
   def get_iss_locations(self, window: int) -> list:
     ts_to = int(time.time())
     ts_from = ts_to - window
+    self._logger.info('Getting ISS locations [ts_from=%s, ts_to=%s]', ts_from,
+                      ts_to)
     iss_locations = self._client.get_iss_locations(ts_from=ts_from, ts_to=ts_to)
     self._logger.info(
         'Received ISS locations [ts_from=%s, ts_to=%s, length=%s]', ts_from,

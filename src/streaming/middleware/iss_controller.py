@@ -25,7 +25,6 @@ class V1ISSController:
   def v1_iss_events(self, window: int = 30) -> list:
     self._validate_v1_iss_events(window=window)
     iss_events = self._repository.get_iss_locations(window=window)
-
     return iss_events
 
   def _validate_v1_iss_events(self, window: int) -> None:
