@@ -18,9 +18,11 @@ jobs:
         service:
           - name: ingestion
             requirements: src/ingestion/requirements.txt
+            source_directory: src/ingestion/
             test_directory: test/unit_tests/ingestion
           - name: streaming
             requirements: src/streaming/requirements.txt
+            source_directory: src/streaming/
             test_directory: test/unit_tests/streaming
     steps:
       - uses: actions/checkout@v2
@@ -31,7 +33,7 @@ jobs:
           architecture: 'x64'
           token: ${{ github.token }}
       - run: pip install -r ${{ matrix.service.requirements }}
-      - run: coverage run --source=src/ -m unittest discover ${{ matrix.service.test_directory }}
+      - run: coverage run --source=${{ matrix.service.source_directory }} -m unittest discover ${{ matrix.service.test_directory }}
       - run: coverage xml
       - uses: orgoro/coverage@v3
         with:
