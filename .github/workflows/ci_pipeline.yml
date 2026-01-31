@@ -33,7 +33,7 @@ jobs:
           architecture: 'x64'
           token: ${{ github.token }}
       - run: pip install -r ${{ matrix.service.requirements }}
-      - run: coverage run --source=${{ matrix.service.source_directory }} -m unittest discover ${{ matrix.service.test_directory }}
+      - run: coverage run --rcfile=.coveragerc --source=${{ matrix.service.source_directory }} -m unittest discover ${{ matrix.service.test_directory }}
       - run: coverage xml
       - uses: orgoro/coverage@v3
         with:
