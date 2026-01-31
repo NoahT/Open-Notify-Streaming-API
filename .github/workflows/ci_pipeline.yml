@@ -10,7 +10,6 @@ jobs:
   code_coverage:
     name: Unit test coverage
     runs-on: ubuntu-latest
-    needs: unit_tests
     permissions:
       pull-requests: write
       contents: read
