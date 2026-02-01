@@ -1,3 +1,4 @@
+''' Init to add integration test configuration '''
 from cfg_environ.config import ConfigFacade
 
 config = ConfigFacade(
