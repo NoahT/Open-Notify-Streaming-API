@@ -1,11 +1,10 @@
 ''' Integration test module for ISS data storage. '''
 import time
 import unittest
+from test.integration_tests.streaming.config import config
 
 from iss_location_client.client import ISSLocationFirestoreClient
 from iss_location_client.iss_location import ISSLocation
-
-from ...config import config
 
 
 class ISSLocationFirestoreClientTestSuite(unittest.TestCase):

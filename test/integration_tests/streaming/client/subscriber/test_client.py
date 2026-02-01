@@ -1,14 +1,13 @@
 ''' Module for integration testing SubscriberClient implementations. '''
 import logging
 import time
+from test.integration_tests.streaming.config import config
 from unittest import TestCase
 
 from iss_location_client.iss_location import ISSLocation
 
 from src.ingestion.client.publisher.client import RedisPublisherClient
 from src.streaming.client.subscriber.client import RedisSubscriberClient
-
-from ...config import config
 
 
 class RedisSubscriberClientTestSuite(TestCase):
