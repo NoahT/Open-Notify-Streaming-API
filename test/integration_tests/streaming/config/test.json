@@ -14,5 +14,21 @@
         },
         "CHANNEL": "iss_location",
         "DECODE_RESPONSES": true
+    },
+    "STREAMING_CLIENT": {
+        "HOST": "streaming",
+        "PORT": 8000,
+        "READ": {
+            "TIMEOUT": 5.000
+        }
+    },
+    "FIRESTORE_CLIENT_CONFIG": {
+        "DATABASE_ID": "open-notify-it",
+        "CREATE": {
+            "TIMEOUT": 5.000
+        },
+        "READ": {
+            "TIMEOUT": 5.000
+        }
     }
 }

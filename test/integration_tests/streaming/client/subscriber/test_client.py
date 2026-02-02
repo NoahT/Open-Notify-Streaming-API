@@ -1,9 +1,9 @@
 ''' Module for integration testing SubscriberClient implementations. '''
 import logging
 import time
+from test.integration_tests.streaming.config import config
 from unittest import TestCase
 
-from cfg_environ.config import ConfigFacade
 from iss_location_client.iss_location import ISSLocation
 
 from src.ingestion.client.publisher.client import RedisPublisherClient
@@ -16,10 +16,7 @@ class RedisSubscriberClientTestSuite(TestCase):
   '''
 
   def setUp(self):
-    self._config = ConfigFacade(
-        config_path='./test/integration_tests/streaming/client/subscriber',
-        config_env='test',
-        config_env_default='default')
+    self._config = config
     self._client_subscriber = RedisSubscriberClient(config=self._config)
     self._client_publisher = RedisPublisherClient(config=self._config)
 
