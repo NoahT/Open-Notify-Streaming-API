@@ -24,5 +24,14 @@
                 }
             }
         }
+    },
+    "FIRESTORE_CLIENT_CONFIG": {
+        "DATABASE_ID": "open-notify-development",
+        "CREATE": {
+            "TIMEOUT": 5.000
+        },
+        "READ": {
+            "TIMEOUT": 5.000
+        }
     }
 }
