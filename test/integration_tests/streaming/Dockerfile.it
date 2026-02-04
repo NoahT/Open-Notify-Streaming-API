@@ -7,4 +7,4 @@ COPY test/integration_tests/streaming test/integration_tests/streaming
 RUN pip3 install -r src/ingestion/requirements.txt
 RUN pip3 install -r src/streaming/requirements.txt
 
-CMD [ "python3", "-m", "unittest", "discover", "test/integration_tests/streaming" ]
+CMD [ "python3", "-m", "unittest", "discover", "--verbose", "test/integration_tests/streaming" ]
