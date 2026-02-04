@@ -23,7 +23,7 @@
         }
     },
     "FIRESTORE_CLIENT_CONFIG": {
-        "DATABASE_ID": "open-notify-it",
+        "DATABASE_ID": "open-notify-development",
         "CREATE": {
             "TIMEOUT": 5.000
         },

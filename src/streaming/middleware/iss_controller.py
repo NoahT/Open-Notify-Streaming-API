@@ -3,8 +3,7 @@
 import logging
 
 from cfg_environ.config import Config
-from werkzeug.exceptions import HTTPException
-from werkzeug.http import HTTP_STATUS_CODES
+from werkzeug.exceptions import BadRequest
 
 from .iss_repository import ISSRepository
 
@@ -22,10 +21,11 @@ class V1ISSController:
     self._config = config
     self._logger = logger
 
-  def v1_iss_events(self, window: int = 30) -> list:
+  def v1_iss_events(self, window: int = 30) -> dict:
     self._validate_v1_iss_events(window=window)
     iss_events = self._repository.get_iss_locations(window=window)
-    return iss_events
+    response = {'locations': [iss_event.iss_dict for iss_event in iss_events]}
+    return response
 
   def _validate_v1_iss_events(self, window: int) -> None:
     config_v1_iss_events = self._config.read_dict('ROUTES')['V1_ISS_EVENTS']
@@ -34,5 +34,4 @@ class V1ISSController:
     window_max = config_window['MAXIMUM_VALUE']
 
     if window not in range(window_min, window_max):
-      raise HTTPException(HTTP_STATUS_CODES[400],
-                          f'Invalid window size: {window}')
+      raise BadRequest(response=f'Invalid window size: {window}')
