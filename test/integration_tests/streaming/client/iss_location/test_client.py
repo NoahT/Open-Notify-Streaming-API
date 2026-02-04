@@ -4,8 +4,6 @@ import unittest
 from test.integration_tests.streaming import (iss_client, iss_location1,
                                               iss_location2)
 
-from iss_location_client.iss_location import ISSLocation
-
 
 class ISSLocationFirestoreClientTestSuite(unittest.TestCase):
   '''
