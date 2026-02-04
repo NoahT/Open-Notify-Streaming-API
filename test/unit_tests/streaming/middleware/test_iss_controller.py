@@ -18,13 +18,12 @@ class V1ISSControllerTestSuite(TestCase):
 
   def setUp(self):
     self._repository = MagicMock(spec=ISSRepository)
-    self._repository_return_value = [
-        ISSLocation.from_dict({
-            'ts': 123,
-            'pos_la': 4.56,
-            'pos_lo': 7.89
-        })
-    ]
+    self._location = ISSLocation.from_dict({
+        'ts': 123,
+        'pos_la': 4.56,
+        'pos_lo': 7.89
+    })
+    self._repository_return_value = [self._location]
     # pylint:disable=line-too-long
     self._repository.get_iss_locations.return_value = self._repository_return_value
     self._config = MagicMock(spec=Config)
@@ -44,7 +43,10 @@ class V1ISSControllerTestSuite(TestCase):
   def test_should_return_repository_results_on_valid_request(self) -> None:
     result = self._controller.v1_iss_events(window=30)
 
-    self.assertEqual(self._repository_return_value, result)
+    self.assertIsNotNone(result)
+    locations = result['locations']
+    self.assertEqual(1, len(locations))
+    self.assertEqual(self._location.iss_dict, locations[0])
 
   def test_should_raise_exception_when_window_too_small(self) -> None:
     self.assertRaises(HTTPException, self._controller.v1_iss_events, window=9)
