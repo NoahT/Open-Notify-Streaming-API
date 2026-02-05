@@ -8,4 +8,4 @@ COPY . .
 RUN pip3 install -r requirements.txt
 WORKDIR /
 
-CMD ["gunicorn", "streaming.main:app", "--worker-class", "sync", "--workers", "2", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "streaming.main:app", "--worker-class", "gthread", "--workers", "3", "--threads", "10", "--bind", "0.0.0.0:8000"]
