@@ -1,12 +1,13 @@
 ''' Integration test module for Open Notify client. '''
 import unittest
 
-from src.ingestion.client.open_notify.client import OpenNotifyRequestsClient
+from src.ingestion.client.open_notify.client import (
+    FaultTolerantOpenNotifyRequestsClient, OpenNotifyRequestsClient)
 
 
 class OpenNotifyRequestsClientTestSuite(unittest.TestCase):
   '''
-  Test suite for OpenNotifyRequestsClient.
+  Integration test suite for OpenNotifyRequestsClient.
   '''
 
   def setUp(self) -> None:
@@ -21,3 +22,14 @@ class OpenNotifyRequestsClientTestSuite(unittest.TestCase):
     self.assertIsNotNone(response['iss_position'])
     self.assertIsNotNone(response['iss_position']['latitude'])
     self.assertIsNotNone(response['iss_position']['longitude'])
+
+
+class FaultTolerantOpenNotifyRequestsClientTestSuite(
+    OpenNotifyRequestsClientTestSuite):
+  '''
+  Integration test suite for FaultTolerantOpenNotifyRequestsClient.
+  '''
+
+  def setUp(self) -> None:
+    self._client = FaultTolerantOpenNotifyRequestsClient(
+        client=OpenNotifyRequestsClient())

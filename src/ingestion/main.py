@@ -11,7 +11,9 @@ from iss_location_client.client import ISSLocationFirestoreClient
 from iss_location_client.iss_location import ISSLocation
 from kazoo.client import KazooClient
 
-from .client.open_notify.client import OpenNotifyRequestsClient
+from .client.open_notify.client import (FaultTolerantOpenNotifyRequestsClient,
+                                        OpenNotifyClient,
+                                        OpenNotifyRequestsClient)
 from .client.zookeeper.client import Client, KazooZookeeperClient
 from .election.facade import ElectionFacade, SequentialEphemeralElectionFacade
 from .util.signal_handler import SignalHandler, ZooKeeperSignalHandler
@@ -28,9 +30,11 @@ def get_config() -> Config:
   return config
 
 
-def get_open_notify_client() -> OpenNotifyRequestsClient:
+def get_open_notify_client() -> OpenNotifyClient:
   open_notify_client = OpenNotifyRequestsClient()
-  return open_notify_client
+  fault_tolerant_open_notify_client = FaultTolerantOpenNotifyRequestsClient(
+      client=open_notify_client)
+  return fault_tolerant_open_notify_client
 
 
 def get_iss_firestore_client() -> ISSLocationFirestoreClient:

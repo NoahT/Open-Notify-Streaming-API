@@ -5,4 +5,4 @@ COPY src/ingestion src/ingestion
 COPY test/integration_tests/ingestion test/integration_tests/ingestion
 RUN pip3 install -r src/ingestion/requirements.txt
 
-CMD [ "python3", "-m", "unittest", "discover", "test/integration_tests" ]
+CMD [ "python3", "-m", "unittest", "discover", "--verbose", "test/integration_tests" ]
