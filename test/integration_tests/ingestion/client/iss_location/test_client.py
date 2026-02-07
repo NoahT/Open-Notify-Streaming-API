@@ -1,8 +1,8 @@
 ''' Integration test module for ISS data storage. '''
 import time
 import unittest
+from test.integration_tests.ingestion.config import config
 
-from cfg_environ.config import ConfigFacade
 from iss_location_client.client import ISSLocationFirestoreClient
 from iss_location_client.iss_location import ISSLocation
 
@@ -14,10 +14,7 @@ class ISSLocationFirestoreClientTestSuite(unittest.TestCase):
 
   @classmethod
   def setUpClass(cls) -> None:
-    cls._config = ConfigFacade(
-        'test/integration_tests/ingestion/client/iss_location', 'test',
-        'default')
-    cls._client = ISSLocationFirestoreClient(config=cls._config,
+    cls._client = ISSLocationFirestoreClient(config=config,
                                              collection_name='iss_locations_it')
 
   @classmethod

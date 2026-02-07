@@ -1,8 +1,8 @@
 ''' Integration test module for PublisherClient implementations. '''
 import time
+from test.integration_tests.ingestion.config import config
 from unittest import TestCase
 
-from cfg_environ.config import ConfigFacade
 from iss_location_client.iss_location import ISSLocation
 
 from src.ingestion.client.publisher.client import RedisPublisherClient
@@ -14,11 +14,7 @@ class RedisPublisherClientTestsuite(TestCase):
   '''
 
   def setUp(self):
-    self._config = ConfigFacade(
-        config_path='test/integration_tests/ingestion/client/publisher',
-        config_env='test',
-        config_env_default='default')
-    self._client = RedisPublisherClient(config=self._config)
+    self._client = RedisPublisherClient(config=config)
 
   def test_should_successfully_publish_iss_location_to_redis_server(
       self) -> None:

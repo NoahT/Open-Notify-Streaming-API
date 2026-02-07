@@ -30,8 +30,8 @@ def get_config() -> Config:
   return config
 
 
-def get_open_notify_client() -> OpenNotifyClient:
-  open_notify_client = OpenNotifyRequestsClient()
+def get_open_notify_client(config: Config) -> OpenNotifyClient:
+  open_notify_client = OpenNotifyRequestsClient(config=config)
   fault_tolerant_open_notify_client = FaultTolerantOpenNotifyRequestsClient(
       client=open_notify_client)
   return fault_tolerant_open_notify_client
@@ -45,7 +45,7 @@ def get_iss_firestore_client() -> ISSLocationFirestoreClient:
 
 
 def on_leadership_acquired(event: threading.Event) -> None:
-  open_notify_client = get_open_notify_client()
+  open_notify_client = get_open_notify_client(config=get_config())
   iss_firestore_client = get_iss_firestore_client()
   logging.warning('Obtained leadership')
   while not event.is_set():

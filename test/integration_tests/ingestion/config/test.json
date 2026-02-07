@@ -1,7 +1,7 @@
 {
-    "ENVIRONMENT": "development",
+    "ENVIRONMENT": "test",
     "FIRESTORE_CLIENT_CONFIG": {
-        "DATABASE_ID": "open-notify-development",
+        "DATABASE_ID": "open-notify-it",
         "CREATE": {
             "TIMEOUT": 5.000
         },
@@ -9,8 +9,14 @@
             "TIMEOUT": 5.000
         }
     },
+    "OPEN_NOTIFY_CLIENT": {
+        "HOST": "http://api.open-notify.org",
+        "READ": {
+            "TIMEOUT": 5.000
+        }
+    },
     "REDIS_CLIENT": {
-        "HOST": "localhost",
+        "HOST": "redis",
         "PORT": 6379,
         "CONNECT": {
             "TIMEOUT": 5.000
@@ -20,11 +26,5 @@
         },
         "CHANNEL": "iss_location",
         "DECODE_RESPONSES": true
-    },
-    "OPEN_NOTIFY_CLIENT": {
-        "HOST": "http://api.open-notify.org",
-        "READ": {
-            "TIMEOUT": 5.000
-        }
     }
 }
