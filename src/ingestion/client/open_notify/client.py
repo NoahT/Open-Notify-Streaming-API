@@ -8,6 +8,7 @@ from abc import ABC, abstractmethod
 from logging import Logger
 
 import requests
+from cfg_environ.config import Config
 from hyx.circuitbreaker import consecutive_breaker
 from hyx.retry import retry
 from requests.exceptions import HTTPError
@@ -30,18 +31,30 @@ class OpenNotifyRequestsClient(OpenNotifyClient):
   '''
 
   def __init__(self,
-               hostname: str = 'http://api.open-notify.org',
-               timeout: float = 15,
+               config: Config,
                logger: Logger = logging.getLogger(__name__)):
-    self._hostname = hostname
+    self._config = config
     self._iss_path = '/iss-now.json'
-    self._timeout = timeout
     self._logger = logger
 
+  @property
+  def timeout(self) -> float:
+    config = self._config.read_dict('OPEN_NOTIFY_CLIENT')
+    timeout = config['READ']['TIMEOUT']
+
+    return timeout
+
+  @property
+  def host(self) -> str:
+    config = self._config.read_dict('OPEN_NOTIFY_CLIENT')
+    host = config['HOST']
+
+    return host
+
   def get_iss(self) -> dict:
-    endpoint = f'{self._hostname}{self._iss_path}'
+    endpoint = f'{self.host}{self._iss_path}'
     self._logger.warning(f'Requesting for ISS data [endpoint={endpoint}]')
-    response = requests.get(endpoint, timeout=self._timeout)
+    response = requests.get(endpoint, timeout=self.timeout)
     response.raise_for_status()
     response_json = response.json()
 

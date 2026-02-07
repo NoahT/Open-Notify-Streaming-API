@@ -1,30 +1,38 @@
-"""
+'''
 Test suite for Open Notify client.
-"""
+'''
 
 import unittest
 from unittest.mock import MagicMock, Mock
 
 import requests
+from cfg_environ.config import Config
 from requests import HTTPError
 
 from src.ingestion.client.open_notify.client import OpenNotifyRequestsClient
 
 
 class OpenNotifyRequestsClientTestSuite(unittest.TestCase):
-  """Test suite for OpenNotifyRequestsClient."""
+  '''Test suite for OpenNotifyRequestsClient.'''
 
   def setUp(self):
-    self._client = OpenNotifyRequestsClient()
+    config = MagicMock(spec=Config)
+    config.read_dict.return_value = {
+        'HOST': 'http://api.open-notify.org',
+        'READ': {
+            'TIMEOUT': 5.000
+        }
+    }
+    self._client = OpenNotifyRequestsClient(config=config)
 
   def test_should_get_iss_data_for_2xx_response(self) -> None:
     mock_response_json = {
-        "iss_position": {
-            "latitude": "38.2750",
-            "longitude": "132.3841"
+        'iss_position': {
+            'latitude': '38.2750',
+            'longitude': '132.3841'
         },
-        "message": "success",
-        "timestamp": 1767045061
+        'message': 'success',
+        'timestamp': 1767045061
     }
     mock_response = MagicMock(spec=requests.Response)
     mock_response.json.return_value = mock_response_json

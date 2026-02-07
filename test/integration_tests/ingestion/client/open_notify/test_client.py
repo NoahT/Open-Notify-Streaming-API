@@ -1,5 +1,6 @@
 ''' Integration test module for Open Notify client. '''
 import unittest
+from test.integration_tests.ingestion.config import config
 
 from src.ingestion.client.open_notify.client import (
     FaultTolerantOpenNotifyRequestsClient, OpenNotifyRequestsClient)
@@ -11,7 +12,7 @@ class OpenNotifyRequestsClientTestSuite(unittest.TestCase):
   '''
 
   def setUp(self) -> None:
-    self._client = OpenNotifyRequestsClient()
+    self._client = OpenNotifyRequestsClient(config=config)
 
   def test_should_return_iss_data_on_successful_request(self) -> None:
     response = self._client.get_iss()
@@ -32,4 +33,4 @@ class FaultTolerantOpenNotifyRequestsClientTestSuite(
 
   def setUp(self) -> None:
     self._client = FaultTolerantOpenNotifyRequestsClient(
-        client=OpenNotifyRequestsClient())
+        client=OpenNotifyRequestsClient(config=config))
