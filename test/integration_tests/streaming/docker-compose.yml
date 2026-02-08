@@ -30,7 +30,7 @@ services:
       - "8000:8000"
     networks:
       - default
-      # - bridge
+      - bridge
     depends_on:
       - firestore_emulator
       - redis
