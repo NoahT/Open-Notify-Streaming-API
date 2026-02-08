@@ -8,7 +8,7 @@ certifi==2025.11.12
 cffi==2.0.0
 cfg-environ==1.0.0
 charset-normalizer==3.4.4
-click==8.3.1
+click==8.1.8
 coverage==7.10.7
 cryptography==46.0.3
 dill==0.4.0
