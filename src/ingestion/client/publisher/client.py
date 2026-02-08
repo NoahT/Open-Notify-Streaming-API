@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 
 import redis
 from cfg_environ.config import Config
+from flask_sse import Message
 from iss_location_client.iss_location import ISSLocation
 
 
@@ -43,9 +44,10 @@ class RedisPublisherClient(PublisherClient):
   def publish_iss_location(self, iss_location: ISSLocation) -> bool:
     is_published = False
     channel = self._config['CHANNEL']
-    message = json.dumps(iss_location.iss_dict)
+    message = Message(data=iss_location.iss_dict, type='iss_location')
+    message_json = json.dumps(message.to_dict())
     try:
-      subscribers = self.client.publish(channel=channel, message=message)
+      subscribers = self.client.publish(channel=channel, message=message_json)
 
       self._logger.info(
           ('Published ISS location update ', f'[channel={channel}, ',
