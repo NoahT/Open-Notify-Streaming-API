@@ -3,7 +3,6 @@ import logging
 
 from cfg_environ.config import Config
 from flask import Flask
-from flask_sse import sse
 
 from ..middleware.iss_controller import V1ISSController
 from .v1_iss import create_v1_blueprint
@@ -22,11 +21,3 @@ def get_flask_app(controller: V1ISSController, config: Config) -> Flask:
   app.config[FLASK_SSE_REDIS_URL_KEY] = redis_url
 
   return app
-
-
-def on_iss_location_update(message: dict) -> None:
-  channel = message['channel']
-  data = message['data']
-  sse.publish(data, type='iss_location')
-  LOGGER.info('Published ISS location update [channel=%s, data=%s]', channel,
-              data)
