@@ -12,7 +12,7 @@
     "OPEN_NOTIFY_CLIENT": {
         "HOST": "http://api.open-notify.org",
         "READ": {
-            "TIMEOUT": 5.000
+            "TIMEOUT": 15.000
         }
     },
     "REDIS_CLIENT": {
