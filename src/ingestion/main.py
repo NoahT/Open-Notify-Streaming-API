@@ -1,22 +1,18 @@
-"""
+'''
 Main module for the ingestion service using ZooKeeper for leader election.
-"""
+'''
 
 import logging
-import os
 import threading
 
-from cfg_environ.config import Config, ConfigFacade
-from iss_location_client.client import ISSLocationFirestoreClient
 from iss_location_client.iss_location import ISSLocation
-from kazoo.client import KazooClient
 
-from .client.open_notify.client import (FaultTolerantOpenNotifyRequestsClient,
-                                        OpenNotifyClient,
-                                        OpenNotifyRequestsClient)
-from .client.zookeeper.client import Client, KazooZookeeperClient
-from .election.facade import ElectionFacade, SequentialEphemeralElectionFacade
-from .util.signal_handler import SignalHandler, ZooKeeperSignalHandler
+from .client import get_iss_firestore_client
+from .client.open_notify import get_open_notify_client
+from .client.zookeeper import get_zookeeper_client
+from .config import get_config
+from .election import get_facade
+from .util import get_signal_handler
 
 
 def configure_loggging() -> None:
@@ -24,29 +20,7 @@ def configure_loggging() -> None:
                       format='%(asctime)s %(levelname)s %(name)s: %(message)s')
 
 
-def get_config() -> Config:
-  config = ConfigFacade('ingestion/config', 'development', 'default')
-
-  return config
-
-
-def get_open_notify_client(config: Config) -> OpenNotifyClient:
-  open_notify_client = OpenNotifyRequestsClient(config=config)
-  fault_tolerant_open_notify_client = FaultTolerantOpenNotifyRequestsClient(
-      client=open_notify_client)
-  return fault_tolerant_open_notify_client
-
-
-def get_iss_firestore_client() -> ISSLocationFirestoreClient:
-  config = get_config()
-  iss_firestore_client = ISSLocationFirestoreClient(config=config)
-
-  return iss_firestore_client
-
-
 def on_leadership_acquired(event: threading.Event) -> None:
-  open_notify_client = get_open_notify_client(config=get_config())
-  iss_firestore_client = get_iss_firestore_client()
   logging.warning('Obtained leadership')
   while not event.is_set():
     event.wait(5)
@@ -64,37 +38,19 @@ def on_leadership_acquired(event: threading.Event) -> None:
                     iss_location_obj)
 
 
-def get_zookeeper_client() -> KazooZookeeperClient:
-  kazoo_client = KazooClient(hosts=os.getenv('ZOO_SERVERS'),
-                             logger=logging.getLogger(__name__))
-  zookeeper_client = KazooZookeeperClient(kazoo_client=kazoo_client)
-
-  return zookeeper_client
-
-
-def get_facade(zookeeper_client: KazooZookeeperClient,
-               signal_handler: SignalHandler) -> ElectionFacade:
-  election_facade = SequentialEphemeralElectionFacade(
-      zookeeper_client=zookeeper_client,
-      signal_handler=signal_handler,
-      logger=logging.getLogger(__name__))
-  election_facade.connect()
-
-  return election_facade
-
-
-def get_signal_handler(zookeeper_client: Client) -> SignalHandler:
-  return ZooKeeperSignalHandler(zookeeper_client=zookeeper_client)
+configure_loggging()
+config = get_config()
+open_notify_client = get_open_notify_client(config=config)
+iss_firestore_client = get_iss_firestore_client()
+zookeeper_client = get_zookeeper_client()
+signal_handler = get_signal_handler(zookeeper_client=zookeeper_client)
+election_facade = get_facade(zookeeper_client=zookeeper_client,
+                             signal_handler=signal_handler)
 
 
 def main() -> None:
-  configure_loggging()
-  zookeeper_client = get_zookeeper_client()
   try:
     zookeeper_client.start()
-    signal_handler = get_signal_handler(zookeeper_client=zookeeper_client)
-    election_facade = get_facade(zookeeper_client=zookeeper_client,
-                                 signal_handler=signal_handler)
     election_facade.run_leader_election_loop(
         on_leadership_acquired=on_leadership_acquired)
   finally:
