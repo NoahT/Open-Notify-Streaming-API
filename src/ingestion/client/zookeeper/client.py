@@ -61,6 +61,7 @@ class KazooZookeeperClient(Client):
     self._kazoo_client = kazoo_client
 
   def start(self) -> None:
+    self._kazoo_client.logger.warning('Starting kazoo client..')
     self._kazoo_client.start()
 
   def stop(self) -> None:

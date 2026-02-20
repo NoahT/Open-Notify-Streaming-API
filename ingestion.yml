@@ -5,6 +5,7 @@ metadata:
   labels:
     app: zk
 spec:
+  publishNotReadyAddresses: true
   ports:
   - port: 2888
     name: server
@@ -49,7 +50,7 @@ spec:
   replicas: 3
   updateStrategy:
     type: RollingUpdate
-  podManagementPolicy: OrderedReady
+  podManagementPolicy: Parallel
   template:
     metadata:
       labels:
@@ -129,8 +130,8 @@ spec:
           initialDelaySeconds: 10
           timeoutSeconds: 5
       - name: ingestion-service
-        imagePullPolicy: Always
-        image: localhost:5000/ingestion-service
+        image: localhost:5000/ingestion:latest
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             memory: "0.3Gi"
@@ -147,5 +148,9 @@ spec:
               zk-2.zk-hs.default.svc.cluster.local:2181
           - name: ENVIRONMENT
             value: "development"
+          - name: FIRESTORE_EMULATOR_HOST
+            value: firestore-service.default.svc.cluster.local:8080
+          - name: FIRESTORE_PROJECT_ID
+            value: open-notify
       securityContext:
         runAsUser: 0

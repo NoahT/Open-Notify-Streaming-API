@@ -22,6 +22,7 @@ services:
       - FIRESTORE_PROJECT_ID=open-notify
       - GOOGLE_APPLICATION_CREDENTIALS
       - GOOGLE_CLOUD_PROJECT=open-notify
+      - ENVIRONMENT=integration_testing
     volumes:
       - type: bind
         source: ${GOOGLE_APPLICATION_CREDENTIALS}

@@ -10,7 +10,7 @@
         }
     },
     "REDIS_CLIENT": {
-        "HOST": "localhost",
+        "HOST": "redis-service.default.svc.cluster.local",
         "PORT": 6379,
         "CONNECT": {
             "TIMEOUT": 5.000

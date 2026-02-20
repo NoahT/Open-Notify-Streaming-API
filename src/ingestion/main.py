@@ -9,6 +9,7 @@ from iss_location_client.iss_location import ISSLocation
 
 from .client import get_iss_firestore_client
 from .client.open_notify import get_open_notify_client
+from .client.publisher import get_publisher_client
 from .client.zookeeper import get_zookeeper_client
 from .config import get_config
 from .election import get_facade
@@ -34,15 +35,16 @@ def on_leadership_acquired(event: threading.Event) -> None:
         pos_lo=iss_location['iss_position']['longitude'])
 
     iss_firestore_client.add_iss_location(iss_location=iss_location_obj)
-    logging.warning('Upserted ISS location data [iss_location_obj=%s]',
-                    iss_location_obj)
+    publisher_client.publish_iss_location(iss_location=iss_location_obj)
 
 
 configure_loggging()
 config = get_config()
 open_notify_client = get_open_notify_client(config=config)
-iss_firestore_client = get_iss_firestore_client()
+iss_firestore_client = get_iss_firestore_client(config=config)
+publisher_client = get_publisher_client(config=config)
 zookeeper_client = get_zookeeper_client()
+zookeeper_client.start()
 signal_handler = get_signal_handler(zookeeper_client=zookeeper_client)
 election_facade = get_facade(zookeeper_client=zookeeper_client,
                              signal_handler=signal_handler)

@@ -1,7 +1,7 @@
 {
     "ENVIRONMENT": "development",
     "REDIS_CLIENT": {
-        "HOST": "redis-service.default.svc.cluster.local",
+        "HOST": "redis",
         "PORT": 6379,
         "CONNECT": {
             "TIMEOUT": 5.000
@@ -13,7 +13,7 @@
         "DECODE_RESPONSES": true
     },
     "FLASK_SSE": {
-        "REDIS_URL": "redis://redis-service.default.svc.cluster.local:6379"
+        "REDIS_URL": "redis://redis:6379"
     },
     "ROUTES": {
         "V1_ISS_EVENTS": {
