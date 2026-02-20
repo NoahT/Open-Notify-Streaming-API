@@ -116,6 +116,7 @@ metadata:
   labels:
     app: streaming
 spec:
+  type: LoadBalancer
   selector:
     app: streaming
   ports:
