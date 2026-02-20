@@ -1,0 +1,37 @@
+{
+    "ENVIRONMENT": "development",
+    "REDIS_CLIENT": {
+        "HOST": "redis",
+        "PORT": 6379,
+        "CONNECT": {
+            "TIMEOUT": 5.000
+        },
+        "SUBSCRIBE": {
+            "SLEEP_TIME": 5.000
+        },
+        "CHANNEL": "iss_location",
+        "DECODE_RESPONSES": true
+    },
+    "FLASK_SSE": {
+        "REDIS_URL": "redis://redis:6379"
+    },
+    "ROUTES": {
+        "V1_ISS_EVENTS": {
+            "PARAMS": {
+                "WINDOW": {
+                    "MINIMUM_VALUE": 10,
+                    "MAXIMUM_VALUE": 600
+                }
+            }
+        }
+    },
+    "FIRESTORE_CLIENT_CONFIG": {
+        "DATABASE_ID": "open-notify-development",
+        "CREATE": {
+            "TIMEOUT": 5.000
+        },
+        "READ": {
+            "TIMEOUT": 5.000
+        }
+    }
+}
