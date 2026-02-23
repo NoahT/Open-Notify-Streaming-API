@@ -1,4 +1,5 @@
 ''' Client for publishing ISS location updates. '''
+import asyncio
 import json
 import logging
 from abc import ABC, abstractmethod
@@ -6,6 +7,7 @@ from abc import ABC, abstractmethod
 import redis
 from cfg_environ.config import Config
 from flask_sse import Message
+from hyx.retry import retry
 from iss_location_client.iss_location import ISSLocation
 
 
@@ -77,3 +79,22 @@ class RedisPublisherClient(PublisherClient):
                                  socket_timeout=publish_timeout)
 
     return self._client
+
+
+class FaultTolerantPubisherClient(PublisherClient):
+  '''
+  PublisherClient implementation with fault tolerance.
+  '''
+
+  def __init__(self,
+               client: PublisherClient,
+               logger: logging.Logger = logging.getLogger(__name__)):
+    self._client = client
+    self.logger = logger
+
+  def publish_iss_location(self, iss_location) -> bool:
+    return asyncio.run(self._publish_iss_location(iss_location=iss_location))
+
+  @retry(on=Exception, attempts=3, backoff=1)
+  async def _publish_iss_location(self, iss_location) -> bool:
+    return self._client.publish_iss_location(iss_location=iss_location)
