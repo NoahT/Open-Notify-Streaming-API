@@ -5,10 +5,11 @@ from unittest import TestCase
 
 from iss_location_client.iss_location import ISSLocation
 
-from src.ingestion.client.publisher.client import RedisPublisherClient
+from src.ingestion.client.publisher.client import (FaultTolerantPubisherClient,
+                                                   RedisPublisherClient)
 
 
-class RedisPublisherClientTestsuite(TestCase):
+class RedisPublisherClientTestSuite(TestCase):
   '''
   Integration test suite for RedisPublisherClient.
   '''
@@ -27,3 +28,13 @@ class RedisPublisherClientTestsuite(TestCase):
     is_published = self._client.publish_iss_location(iss_location=iss_location)
 
     self.assertTrue(is_published)
+
+
+class FaultTolerantRedisPublisherClientTestSuite(RedisPublisherClientTestSuite):
+  '''
+  Integration test suite for FaultTolerantRedisPublisherClient.
+  '''
+
+  def setUp(self):
+    client = RedisPublisherClient(config=config)
+    self._client = FaultTolerantPubisherClient(client=client)

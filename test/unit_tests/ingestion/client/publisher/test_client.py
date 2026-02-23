@@ -6,7 +6,9 @@ import redis
 from cfg_environ.config import Config
 from iss_location_client.iss_location import ISSLocation
 
-from src.ingestion.client.publisher.client import RedisPublisherClient
+from src.ingestion.client.publisher.client import (FaultTolerantPubisherClient,
+                                                   PublisherClient,
+                                                   RedisPublisherClient)
 
 
 class RedisPublisherClientTestSuite(TestCase):
@@ -63,3 +65,24 @@ class RedisPublisherClientTestSuite(TestCase):
     is_published = self._client.publish_iss_location(iss_location=iss_location)
 
     self.assertFalse(is_published)
+
+
+class FaultTolerantPublisherClientTestSuite(TestCase):
+  '''
+  Unit test suite for FaultTolerantPublisherClient.
+  '''
+
+  def setUp(self):
+    self._delegate_client = MagicMock(spec=PublisherClient)
+    self._delegate_client.publish_iss_location.return_value = True
+    self._client = FaultTolerantPubisherClient(client=self._delegate_client)
+
+  def test_should_delegate_publish_to_injected_client(self) -> None:
+    iss_location = ISSLocation.from_dict({
+        'ts': 1.23,
+        'pos_la': 4.56,
+        'pos_lo': 7.89
+    })
+    self._client.publish_iss_location(iss_location=iss_location)
+
+    self._delegate_client.publish_iss_location.assert_called_once()
