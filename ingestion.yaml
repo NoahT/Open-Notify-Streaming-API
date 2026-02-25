@@ -75,7 +75,10 @@ spec:
         image: "zookeeper:latest"
         env:
           - name: ZOO_4LW_COMMANDS_WHITELIST
-            value: "*"
+            valueFrom:
+              configMapKeyRef:
+                name: configuration
+                key: ZOO_4LW_COMMANDS_WHITELIST
           - name: ZOO_MY_ID
             valueFrom:
               fieldRef:
@@ -85,19 +88,15 @@ spec:
                 # https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-index-label
                 fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
           - name: ZOO_SERVERS
-            # We need the FQDNs of each pod in our headless service, but it's not possible to get this value
-            # dynamically based on the number of replicas we are using. Based on the DNS documenation for services,
-            # FQDNs are formatted as <pod-name>.<service name>.<namespace>.svc.<cluster domain>, so they are listed
-            # exhaustively here.
-            # https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/
-            value: |
-              server.0=zk-0.zk-hs.default.svc.cluster.local:2888:3888;2181
-              server.1=zk-1.zk-hs.default.svc.cluster.local:2888:3888;2181
-              server.2=zk-2.zk-hs.default.svc.cluster.local:2888:3888;2181
+            valueFrom:
+              configMapKeyRef:
+                name: configuration
+                key: ZOO_SERVERS
           - name: ZOO_CFG_EXTRA
-            # Based on the Zookeeper configuration documentation, the following configurations in zoo.cfg are required.
-            # https://zookeeper.apache.org/doc/r3.5.7/zookeeperAdmin.html#sc_minimumConfiguration
-            value: "clientPort=2181 dataDir=/data tickTime=2000 dataLogDir=/datalog"
+            valueFrom:
+              configMapKeyRef:
+                name: configuration
+                key: ZOO_CFG_EXTRA
         resources:
           requests:
             memory: "1Gi"
@@ -142,15 +141,24 @@ spec:
               fieldRef:
                 fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
           - name: ZOO_SERVERS
-            value: |
-              zk-0.zk-hs.default.svc.cluster.local:2181,
-              zk-1.zk-hs.default.svc.cluster.local:2181,
-              zk-2.zk-hs.default.svc.cluster.local:2181
+            valueFrom:
+              configMapKeyRef:
+                name: configuration
+                key: INGESTION_ZOO_SERVERS
           - name: ENVIRONMENT
-            value: "development"
+            valueFrom:
+              configMapKeyRef:
+                name: configuration
+                key: ENVIRONMENT
           - name: FIRESTORE_EMULATOR_HOST
-            value: firestore-service.default.svc.cluster.local:8080
+            valueFrom:
+              configMapKeyRef:
+                name: configuration
+                key: FIRESTORE_EMULATOR_HOST
           - name: FIRESTORE_PROJECT_ID
-            value: open-notify
+            valueFrom:
+              configMapKeyRef:
+                name: configuration
+                key: FIRESTORE_PROJECT_ID
       securityContext:
         runAsUser: 0
