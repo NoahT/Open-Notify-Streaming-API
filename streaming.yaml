@@ -61,11 +61,20 @@ spec:
               name: firestore-port
           env:
             - name: FIRESTORE_PROJECT_ID
-              value: open-notify
+              valueFrom:
+                configMapKeyRef:
+                  name: configuration
+                  key: FIRESTORE_PROJECT_ID
             - name: GOOGLE_CLOUD_PROJECT
-              value: open-notify
+              valueFrom:
+                configMapKeyRef:
+                  name: configuration
+                  key: GOOGLE_CLOUD_PROJECT
             - name: GCLOUD_PROJECT
-              value: open-notify
+              valueFrom:
+                configMapKeyRef:
+                  name: configuration
+                  key: GCLOUD_PROJECT
 ---
 apiVersion: v1
 kind: Service
@@ -105,9 +114,15 @@ spec:
           name: streaming-port
         env:
           - name: FIRESTORE_EMULATOR_HOST
-            value: firestore-service.default.svc.cluster.local:8080
+            valueFrom:
+              configMapKeyRef:
+                name: configuration
+                key: FIRESTORE_EMULATOR_HOST
           - name: FIRESTORE_PROJECT_ID
-            value: open-notify
+            valueFrom:
+              configMapKeyRef:
+                name: configuration
+                key: FIRESTORE_PROJECT_ID
 ---
 apiVersion: v1
 kind: Service
