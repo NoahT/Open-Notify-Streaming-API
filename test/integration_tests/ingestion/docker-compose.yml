@@ -3,7 +3,7 @@ version: '2'
 services:
   firestore_emulator:
     build:
-      context: .
+      context: ../
       dockerfile: Dockerfile.firestore
     environment:
       - FIRESTORE_PROJECT_ID=open-notify
