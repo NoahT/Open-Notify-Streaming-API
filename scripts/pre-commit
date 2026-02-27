@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+
+# Intepreter location
+docker=$(which docker)
+python=$(which python)
+
+echo "UNIT TEST REGRESSION ON YOUR BULLSHIT CHANGES"
+docker build -t ingestion-test:latest --file test/unit_tests/ingestion/Dockerfile .
+docker run ingestion-test:latest
+
+docker build -t streaming-test:latest --file test/unit_tests/streaming/Dockerfile .
+docker run streaming-test:latest
+
+python -m pylint src/ test/ --rcfile=.pylintrc
