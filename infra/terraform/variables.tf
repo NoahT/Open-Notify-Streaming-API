@@ -1,0 +1,34 @@
+variable "project" {}
+
+variable "vpc-network-name" {
+  default = "iss-network"
+}
+
+variable "region" {
+  default = "us-east1"
+}
+
+variable "availability-zone" {
+  default = "us-east1-a"
+}
+
+variable "service-account" {
+  default = "open-notify-service-account"
+}
+
+variable "container-cluster-node-count" {
+  default = 1
+}
+
+variable "container-node-pool-machine-type" {
+  default = "e2-medium"
+}
+
+variable "vm-instance-boot-disk" {
+  default = "cos-cloud/cos-stable"
+}
+
+variable "firestore-database-name" {
+  default = "open-notify-staging"
+}
+
