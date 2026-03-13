@@ -1,0 +1,9 @@
+# State files can impose a risk by exposing sensitive information about our infrastructure.
+# https://developer.hashicorp.com/terraform/language/style#gitignore
+.terraform/
+.terraform.tfstate
+.terraform.tfstate.*
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.*
+terraform.tfvars
