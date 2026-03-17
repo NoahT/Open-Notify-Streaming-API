@@ -1,4 +1,6 @@
-variable "project" {}
+variable "project" {
+  default = "open-notify"
+}
 
 variable "vpc-network-name" {
   default = "iss-network"
