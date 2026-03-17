@@ -5,11 +5,16 @@
 docker=$(which docker)
 python=$(which python)
 
-echo "UNIT TEST REGRESSION ON YOUR BULLSHIT CHANGES"
+echo "============================================"
+echo "============UNIT TEST REGRESSION============"
+echo "============================================"
 docker build -t ingestion-test:latest --file test/unit_tests/ingestion/Dockerfile .
 docker run ingestion-test:latest
 
 docker build -t streaming-test:latest --file test/unit_tests/streaming/Dockerfile .
 docker run streaming-test:latest
 
+echo "==========================================="
+echo "==============LINTING PROJECT=============="
+echo "==========================================="
 python -m pylint src/ test/ --rcfile=.pylintrc

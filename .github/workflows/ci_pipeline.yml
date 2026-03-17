@@ -100,3 +100,34 @@ jobs:
           token: ${{ github.token }}
       - run: pip install -r ${{ matrix.service.requirements }}
       - run: python -m pylint src/ test/ --rcfile=.pylintrc
+  terraform_validation:
+    name: Validate terraform configs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: 'google-github-actions/auth@v3'
+        with:
+          project_id: 'open-notify'
+          workload_identity_provider: 'projects/699210509406/locations/global/workloadIdentityPools/github-actions/providers/github-actions-provider'
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "1.13.5"
+      - id: init
+        run: terraform init -input=false
+        working-directory: ${{ github.workspace }}/infra/terraform
+      - id: format
+        run: terraform fmt -check -no-color
+        working-directory: ${{ github.workspace }}/infra/terraform
+      - id: validate
+        run: terraform validate -no-color
+        working-directory: ${{ github.workspace }}/infra/terraform
+      - id: plan
+        run: terraform plan -no-color -input=false
+        working-directory: ${{ github.workspace }}/infra/terraform
+      - run: echo "${{ steps.plan.outputs.stdout }}"
+      - run: echo "${{ steps.plan.outputs.stderr }}"
+      - run: echo "${{ steps.plan.outputs.exitcode }}"
+      # Most of this is sample code from the setup-terraform action. We ended up using
+      # GITHUB_STEP_SUMMARY due to the notice of a character threshold on comments.
+      # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#example-of-adding-a-job-summary
+      - run: echo "${{ steps.plan.stdout }}" >> $GITHUB_STEP_SUMMARY
