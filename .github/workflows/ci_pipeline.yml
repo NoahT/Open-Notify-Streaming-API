@@ -130,4 +130,4 @@ jobs:
       # Most of this is sample code from the setup-terraform action. We ended up using
       # GITHUB_STEP_SUMMARY due to the notice of a character threshold on comments.
       # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#example-of-adding-a-job-summary
-      - run: echo "${{ steps.plan.outcome }}" >> $GITHUB_STEP_SUMMARY
+      - run: echo "${{ steps.plan.stdout }}" >> $GITHUB_STEP_SUMMARY
