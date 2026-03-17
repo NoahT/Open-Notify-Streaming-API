@@ -124,10 +124,10 @@ jobs:
       - id: plan
         run: terraform plan -no-color -input=false
         working-directory: ${{ github.workspace }}/infra/terraform
-      - run: echo ${{ steps.plan.outputs.stdout }}
-      - run: echo ${{ steps.plan.outputs.stderr }}
-      - run: echo ${{ steps.plan.outputs.exitcode }}
+      - run: echo "${{ steps.plan.outputs.stdout }}"
+      - run: echo "${{ steps.plan.outputs.stderr }}"
+      - run: echo "${{ steps.plan.outputs.exitcode }}"
       # Most of this is sample code from the setup-terraform action. We ended up using
       # GITHUB_STEP_SUMMARY due to the notice of a character threshold on comments.
       # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#example-of-adding-a-job-summary
-      - run: echo ${{ steps.plan.outcome }} >> $GITHUB_STEP_SUMMARY
+      - run: echo "${{ steps.plan.outcome }}" >> $GITHUB_STEP_SUMMARY
