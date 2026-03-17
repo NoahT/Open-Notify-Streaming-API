@@ -108,15 +108,18 @@ jobs:
       - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: "1.13.5"
-      - run: cd $GITHUB_WORKSPACE/infra/terraform
       - id: init
         run: terraform init -input=false
+        working-directory: ${{ github.workspace }}/infra/terraform
       - id: format
         run: terraform fmt -check -no-color
+        working-directory: ${{ github.workspace }}/infra/terraform
       - id: validate
         run: terraform validate -no-color
+        working-directory: ${{ github.workspace }}/infra/terraform
       - id: plan
         run: terraform plan -no-color
+        working-directory: ${{ github.workspace }}/infra/terraform
       - run: echo ${{ steps.plan.outputs.stdout }}
       - run: echo ${{ steps.plan.outputs.stderr }}
       - run: echo ${{ steps.plan.outputs.exitcode }}
