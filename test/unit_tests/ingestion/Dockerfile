@@ -5,7 +5,8 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /
 COPY  src/ingestion src/ingestion
 COPY test/unit_tests/ingestion test/unit_tests/ingestion
+COPY .pylintrc .
 
 RUN pip install -r src/ingestion/requirements.txt
 
-CMD [ "python3", "-m", "unittest", "discover", "--verbose", "test/unit_tests/ingestion" ]
+CMD python3 -m pylint src/ test/ --rcfile=.pylintrc && python3 -m unittest discover --verbose test/unit_tests/ingestion
