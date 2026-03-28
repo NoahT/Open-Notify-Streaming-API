@@ -34,3 +34,7 @@ variable "firestore-database-name" {
   default = "open-notify-staging"
 }
 
+variable "artifact-registry-docker-repository-name" {
+  default = "open-notify"
+}
+
