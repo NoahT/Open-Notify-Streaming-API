@@ -16,6 +16,17 @@ Real time updates from Open Notify with server sent events (SSEs).
           - [Client successfully streams ISS location data from application server.](#client-successfully-streams-iss-location-data-from-application-server)
 
 ## Overview
+This repository was created primarily to resolve some personal knowledge gaps (not any tanglible issue). This is in regard for the following items:
+- **Streaming APIs:** I've had conceptual understanding of long-lived HTTP connections with web sockets and server sent events, but never had the chance to build anything directly with either. This repository has a small streaming API created to read near real time updates from the [Open Notify ISS Location API](http://open-notify.org/Open-Notify-API/ISS-Location-Now). This API's documentation has an example of updates which use [short polling](https://www.geeksforgeeks.org/javascript/what-is-long-polling-and-short-polling/) to update the client's browser.
+  - By proxying calls to the ISS Location API with a streaming API, calls from short polling no longer need to be done independently across every clients' browser. This kind of pattern allows us to scale client connections independently of updates from short polling.
+- **Distributed coordination services:** Also only had conceptual understanding of distributed coordination services. I wanted to use one for this project to implement a consensus protocol like Raft. This project has a stateful service called `ingestion`, which runs [ZooKeeper](https://zookeeper.apache.org/index.html) with leader election. The leader handles short polling from Open Notify, updates to a Redis channel, and upserts into Firestore document storage. [Sequential ephemeral znodes](https://zookeeper.apache.org/doc/r3.9.4/recipes.html#sc_leaderElection) was implemented to elect a new leader from the ensemble if the current leader crashes for whatever reason.
+  - Because of the way failures could happen (hardware failure, outages etc.), in a real setting using separate physical hosts for every node in the ensemble makes the most sense. This is because replication of virtual nodes on the same physical host makes that host a single source of failure.
+- **Infrastructure as Code:** Past work involved manually provisioning resources in public clouds from their respective consoles. Due to constraints (primarily financial), I would eventually manually deprovision everything to save on cloud billing. Not having infrastructure managed from an infra as code tool makes going back to past projects a lot more difficult - if I want to reconfigure a project on a public cloud like GCP, I would need to remember exactly what configurations were used in offerings like GCE, GKE, etc. for the project to work as expected. This project manages a cluster in GCP with [Terraform](https://developer.hashicorp.com/terraform/docs) to avoid this kind of cognitive debt for future work.
+- **Configuration management across multiple k8s clusters:** Previously struggled with manually applying patches and editing k8s manifests for development purposes. This project uses [kustomize](https://kustomize.io/) with overlays to handle configuration changes between development and staging environments.
+- **Miscellaneous:** Better understanding of container networking, managing common dependencies across projects using a package manager like PyPI, using build backends like Hatch.
+
+![Component Diagram](/specs/diagrams/component_diagram.png)
+
 ## API Documentation
 ### Resources
 #### GET::/v1/iss/location
