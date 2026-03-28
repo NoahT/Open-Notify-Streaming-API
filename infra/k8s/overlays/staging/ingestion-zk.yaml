@@ -26,11 +26,6 @@ spec:
               configMapKeyRef:
                 name: configuration
                 key: ENVIRONMENT
-          - name: FIRESTORE_EMULATOR_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: configuration
-                key: FIRESTORE_EMULATOR_HOST
           - name: FIRESTORE_PROJECT_ID
             valueFrom:
               configMapKeyRef:
