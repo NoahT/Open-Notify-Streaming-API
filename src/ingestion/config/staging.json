@@ -3,10 +3,28 @@
     "FIRESTORE_CLIENT_CONFIG": {
         "DATABASE_ID": "open-notify-staging",
         "CREATE": {
-            "TIMEOUT": 1.000
+            "TIMEOUT": 5.000
         },
         "READ": {
-            "TIMEOUT": 1.000
+            "TIMEOUT": 5.000
+        }
+    },
+    "REDIS_CLIENT": {
+        "HOST": "redis-service.default.svc.cluster.local",
+        "PORT": 6379,
+        "CONNECT": {
+            "TIMEOUT": 5.000
+        },
+        "PUBLISH": {
+            "TIMEOUT": 5.000
+        },
+        "CHANNEL": "sse",
+        "DECODE_RESPONSES": true
+    },
+    "OPEN_NOTIFY_CLIENT": {
+        "HOST": "http://api.open-notify.org",
+        "READ": {
+            "TIMEOUT": 5.000
         }
     }
 }
