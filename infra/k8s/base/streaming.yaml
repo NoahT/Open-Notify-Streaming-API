@@ -4,6 +4,7 @@ metadata:
   name: streaming-deployment
   labels:
     app: streaming
+    dataStore: firestore
 spec:
   replicas: 2
   selector:
@@ -21,17 +22,6 @@ spec:
         ports:
         - containerPort: 8000
           name: streaming-port
-        env:
-          - name: FIRESTORE_EMULATOR_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: configuration
-                key: FIRESTORE_EMULATOR_HOST
-          - name: FIRESTORE_PROJECT_ID
-            valueFrom:
-              configMapKeyRef:
-                name: configuration
-                key: FIRESTORE_PROJECT_ID
 ---
 apiVersion: v1
 kind: Service

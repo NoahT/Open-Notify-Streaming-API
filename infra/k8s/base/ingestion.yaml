@@ -55,6 +55,7 @@ spec:
     metadata:
       labels:
         app: zk
+        dataStore: firestore
     spec:
       affinity:
         podAntiAffinity:
@@ -135,30 +136,5 @@ spec:
           requests:
             memory: "0.3Gi"
             cpu: "0.4"
-        env:
-          - name: POD_INDEX
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
-          - name: ZOO_SERVERS
-            valueFrom:
-              configMapKeyRef:
-                name: configuration
-                key: INGESTION_ZOO_SERVERS
-          - name: ENVIRONMENT
-            valueFrom:
-              configMapKeyRef:
-                name: configuration
-                key: ENVIRONMENT
-          - name: FIRESTORE_EMULATOR_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: configuration
-                key: FIRESTORE_EMULATOR_HOST
-          - name: FIRESTORE_PROJECT_ID
-            valueFrom:
-              configMapKeyRef:
-                name: configuration
-                key: FIRESTORE_PROJECT_ID
       securityContext:
         runAsUser: 0
