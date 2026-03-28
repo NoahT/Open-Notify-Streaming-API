@@ -1,6 +1,8 @@
 resources:
   - ../../base/ingestion.yaml
   - ../../base/streaming.yaml
+  - ../../base/firestore.yaml
+  - ../../base/redis.yaml
 configMapGenerator:
   - name: configuration
     envs:
