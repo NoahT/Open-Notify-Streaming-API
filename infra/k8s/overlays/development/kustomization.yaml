@@ -1,0 +1,7 @@
+resources:
+  - ../../base/ingestion.yaml
+  - ../../base/streaming.yaml
+configMapGenerator:
+  - name: configuration
+    envs:
+    - application.env
