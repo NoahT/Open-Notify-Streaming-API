@@ -131,7 +131,7 @@ spec:
           timeoutSeconds: 5
       - name: ingestion-service
         image: ingestion:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         resources:
           requests:
             memory: "0.3Gi"
