@@ -10,11 +10,13 @@ configMapGenerator:
     envs:
     - application.env
 patches:
-  - path: streaming-deployment.yaml
+  - path: ingestion-zk.json
     target:
-      name: streaming-deployment
-      labelSelector: "dataStore=firestore"
-  - path: ingestion-zk.yaml
-    target:
+      kind: StatefulSet
       name: zk
-      labelSelector: "dataStore=firestore"
+      version: v1
+  - path: streaming-deployment.json
+    target:
+      kind: Deployment
+      name: streaming-deployment
+      version: v1
