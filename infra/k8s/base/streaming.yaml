@@ -6,7 +6,7 @@ metadata:
     app: streaming
     dataStore: firestore
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: streaming
@@ -22,6 +22,14 @@ spec:
         ports:
         - containerPort: 8000
           name: streaming-port
+        resources:
+          requests:
+            memory: "71Mi"
+            cpu: "2m"
+          limits:
+            memory: "286Mi"
+            cpu: "9m"
+            
 ---
 apiVersion: v1
 kind: Service

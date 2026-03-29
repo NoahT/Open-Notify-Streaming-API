@@ -21,6 +21,13 @@ spec:
         ports:
           - containerPort: 6379
             name: redis-port
+        resources:
+          requests:
+            memory: "2Mi"
+            cpu: "1m"
+          limits:
+            memory: "11Mi"
+            cpu: "7m"
 ---
 apiVersion: v1
 kind: Service

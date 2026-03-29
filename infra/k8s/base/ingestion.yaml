@@ -100,8 +100,11 @@ spec:
                 key: ZOO_CFG_EXTRA
         resources:
           requests:
-            memory: "1Gi"
-            cpu: "0.5"
+            memory: "63Mi"
+            cpu: "4m"
+          limits:
+            memory: "255Mi"
+            cpu: "20m"
         ports:
         - containerPort: 2181
           name: client
@@ -117,8 +120,8 @@ spec:
             - "echo \"ruok\" | \
               nc localhost 2181 | \
               grep imok"
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
+          initialDelaySeconds: 120
+          timeoutSeconds: 20
         livenessProbe:
           exec:
             command:
@@ -127,14 +130,17 @@ spec:
             - "echo \"ruok\" | \
               nc localhost 2181 | \
               grep \"imok\""
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
+          initialDelaySeconds: 120
+          timeoutSeconds: 20
       - name: ingestion-service
         image: ingestion:latest
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "0.3Gi"
-            cpu: "0.4"
+            memory: "23Mi"
+            cpu: "10m"
+          limits:
+            memory: "93Mi"
+            cpu: "40m"
       securityContext:
         runAsUser: 0
