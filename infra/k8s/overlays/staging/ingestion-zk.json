@@ -39,5 +39,10 @@
         }
       }
     ]
+  },
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/containers/1/image",
+    "value": "us-east1-docker.pkg.dev/open-notify/open-notify/ingestion:latest"
   }
 ]

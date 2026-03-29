@@ -22,5 +22,10 @@
         }
       }
     ]
+  },
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/containers/0/image",
+    "value": "localhost:5000/streaming:latest"
   }
 ]

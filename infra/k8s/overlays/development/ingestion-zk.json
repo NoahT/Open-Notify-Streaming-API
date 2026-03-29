@@ -48,5 +48,10 @@
         }
       }
     ]
+  },
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/containers/1/image",
+    "value": "localhost:5000/ingestion:latest"
   }
 ]

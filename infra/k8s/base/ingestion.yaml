@@ -130,7 +130,7 @@ spec:
           initialDelaySeconds: 10
           timeoutSeconds: 5
       - name: ingestion-service
-        image: localhost:5000/ingestion:latest
+        image: ingestion:latest
         imagePullPolicy: IfNotPresent
         resources:
           requests:
