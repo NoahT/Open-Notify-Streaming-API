@@ -15,3 +15,8 @@ resource "google_project_iam_member" "default_service_account_firestore_grant" {
   member  = "serviceAccount:${google_service_account.default.email}"
 }
 
+resource "google_project_iam_member" "default_service_account_cluster_operations_grant" {
+  project = var.project
+  role    = "roles/container.defaultNodeServiceAccount"
+  member  = "serviceAccount:${google_service_account.default.email}"
+}
