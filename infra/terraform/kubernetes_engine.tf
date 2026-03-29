@@ -1,8 +1,3 @@
-resource "google_service_account" "default" {
-  account_id   = var.service-account
-  display_name = "Service Account"
-}
-
 resource "google_container_cluster" "primary" {
   name     = "cluster-primary"
   location = var.region

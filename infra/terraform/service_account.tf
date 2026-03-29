@@ -1,0 +1,11 @@
+resource "google_service_account" "default" {
+  account_id   = var.service-account
+  display_name = "Service Account"
+}
+
+resource "google_project_iam_member" "default_service_account_role_grant" {
+  project = var.project
+  role    = "roles/artifactregistry.reader"
+  member  = "serviceAccount:${google_service_account.default.email}"
+}
+
