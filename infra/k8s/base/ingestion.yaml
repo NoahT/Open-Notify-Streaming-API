@@ -51,6 +51,21 @@ spec:
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel
+  volumeClaimTemplates:
+      - metadata:
+          name: volume-datadir
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 50Mi
+      - metadata:
+          name: volume-datalogdir
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 50Mi
   template:
     metadata:
       labels:
@@ -132,6 +147,11 @@ spec:
               grep \"imok\""
           initialDelaySeconds: 120
           timeoutSeconds: 20
+        volumeMounts:
+          - mountPath: /data
+            name: volume-datadir
+          - mountPath: /datalog
+            name: volume-datalogdir
       - name: ingestion-service
         image: ingestion:latest
         imagePullPolicy: Always
