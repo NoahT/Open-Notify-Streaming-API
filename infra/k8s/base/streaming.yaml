@@ -6,7 +6,7 @@ metadata:
     app: streaming
     dataStore: firestore
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: streaming
@@ -17,11 +17,19 @@ spec:
     spec:
       containers:
       - name: streaming
-        image: localhost:5000/streaming:latest
-        imagePullPolicy: IfNotPresent
+        image: streaming:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
           name: streaming-port
+        resources:
+          requests:
+            memory: "71Mi"
+            cpu: "2m"
+          limits:
+            memory: "286Mi"
+            cpu: "9m"
+            
 ---
 apiVersion: v1
 kind: Service

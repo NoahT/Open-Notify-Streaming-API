@@ -24,18 +24,23 @@ def configure_loggging() -> None:
 def on_leadership_acquired(event: threading.Event) -> None:
   logging.warning('Obtained leadership')
   while not event.is_set():
-    event.wait(5)
-    iss_location = open_notify_client.get_iss()
-    logging.warning('Short polling ISS location data [payload=%s]',
-                    iss_location)
+    try:
+      event.wait(5)
+      iss_location = open_notify_client.get_iss()
+      logging.warning('Short polling ISS location data [payload=%s]',
+                      iss_location)
 
-    iss_location_obj = ISSLocation(
-        ts=iss_location['timestamp'],
-        pos_la=iss_location['iss_position']['latitude'],
-        pos_lo=iss_location['iss_position']['longitude'])
+      iss_location_obj = ISSLocation(
+          ts=iss_location['timestamp'],
+          pos_la=iss_location['iss_position']['latitude'],
+          pos_lo=iss_location['iss_position']['longitude'])
 
-    iss_firestore_client.add_iss_location(iss_location=iss_location_obj)
-    publisher_client.publish_iss_location(iss_location=iss_location_obj)
+      iss_firestore_client.add_iss_location(iss_location=iss_location_obj)
+      publisher_client.publish_iss_location(iss_location=iss_location_obj)
+    #pylint: disable=broad-exception-caught
+    except Exception as exception:
+      logging.error('Error while running leadership process [error=%s]',
+                    exception)
 
 
 configure_loggging()

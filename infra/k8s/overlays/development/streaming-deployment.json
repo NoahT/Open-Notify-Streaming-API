@@ -1,0 +1,31 @@
+[
+  {
+    "op": "add",
+    "path": "/spec/template/spec/containers/0/env",
+    "value": [
+      {
+        "name": "FIRESTORE_PROJECT_ID",
+        "valueFrom": {
+          "configMapKeyRef": {
+            "name": "configuration",
+            "key": "FIRESTORE_PROJECT_ID"
+          }
+        }
+      },
+      {
+        "name": "FIRESTORE_EMULATOR_HOST",
+        "valueFrom": {
+          "configMapKeyRef": {
+            "name": "configuration",
+            "key": "FIRESTORE_EMULATOR_HOST"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "op": "replace",
+    "path": "/spec/template/spec/containers/0/image",
+    "value": "localhost:5000/streaming:latest"
+  }
+]

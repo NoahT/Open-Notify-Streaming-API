@@ -51,6 +51,21 @@ spec:
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel
+  volumeClaimTemplates:
+      - metadata:
+          name: volume-datadir
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 50Mi
+      - metadata:
+          name: volume-datalogdir
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 50Mi
   template:
     metadata:
       labels:
@@ -100,8 +115,11 @@ spec:
                 key: ZOO_CFG_EXTRA
         resources:
           requests:
-            memory: "1Gi"
-            cpu: "0.5"
+            memory: "63Mi"
+            cpu: "4m"
+          limits:
+            memory: "255Mi"
+            cpu: "20m"
         ports:
         - containerPort: 2181
           name: client
@@ -117,8 +135,8 @@ spec:
             - "echo \"ruok\" | \
               nc localhost 2181 | \
               grep imok"
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
+          initialDelaySeconds: 120
+          timeoutSeconds: 20
         livenessProbe:
           exec:
             command:
@@ -127,14 +145,22 @@ spec:
             - "echo \"ruok\" | \
               nc localhost 2181 | \
               grep \"imok\""
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
+          initialDelaySeconds: 120
+          timeoutSeconds: 20
+        volumeMounts:
+          - mountPath: /data
+            name: volume-datadir
+          - mountPath: /datalog
+            name: volume-datalogdir
       - name: ingestion-service
-        image: localhost:5000/ingestion:latest
-        imagePullPolicy: IfNotPresent
+        image: ingestion:latest
+        imagePullPolicy: Always
         resources:
           requests:
-            memory: "0.3Gi"
-            cpu: "0.4"
+            memory: "23Mi"
+            cpu: "10m"
+          limits:
+            memory: "93Mi"
+            cpu: "40m"
       securityContext:
         runAsUser: 0
