@@ -23,7 +23,7 @@ variable "container-cluster-node-count" {
 }
 
 variable "container-node-pool-machine-type" {
-  default = "e2-medium"
+  default = "e2-small"
 }
 
 variable "vm-instance-boot-disk" {
