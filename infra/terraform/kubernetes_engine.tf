@@ -1,6 +1,6 @@
 resource "google_container_cluster" "primary" {
   name     = "cluster-primary"
-  location = var.region
+  location = var.availability-zone
 
   remove_default_node_pool = true
   initial_node_count       = 1
@@ -9,7 +9,7 @@ resource "google_container_cluster" "primary" {
 
 resource "google_container_node_pool" "primary_nodes" {
   name       = "primary-node-pool"
-  location   = var.region
+  location   = var.availability-zone
   cluster    = google_container_cluster.primary.name
   node_count = var.container-cluster-node-count
 

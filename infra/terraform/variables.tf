@@ -11,7 +11,7 @@ variable "region" {
 }
 
 variable "availability-zone" {
-  default = "us-east1-a"
+  default = "us-east1-b"
 }
 
 variable "service-account" {
@@ -19,7 +19,7 @@ variable "service-account" {
 }
 
 variable "container-cluster-node-count" {
-  default = 1
+  default = 3
 }
 
 variable "container-node-pool-machine-type" {
